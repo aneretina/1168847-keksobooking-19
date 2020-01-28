@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Neretina Anna](https://up.htmlacademy.ru/javascript/19/user/1168847).
-* Наставник: `Неизвестно`.
+* Наставник: `Андрей Рыжаков`.
 
 ---
 
