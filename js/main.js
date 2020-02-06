@@ -15,7 +15,7 @@ var LOCATION_MIN_X = 1;
 var LOCATION_MAX_X = 1200;
 var LOCATION_MIN_Y = 130;
 var LOCATION_MAX_Y = 630;
-//1. убираем класс у map
+//2. убираем класс у map
 var activateMap = function () {
   document.querySelector('.map').classList.remove('map--faded');
 };
@@ -56,3 +56,5 @@ var createOffer = function (number){
         y: getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y)
       }
 };
+
+var genOffer = createOffer(OFFERS_COUNT)
