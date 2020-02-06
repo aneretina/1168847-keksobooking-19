@@ -35,17 +35,17 @@ var getRandomItem = function (arr) {
 //создание предложения
 var createOffer = function (number){
   author: {
-     avatar: 'img/avatars/user' + getRandomInt(1, 8) + '.png'
+     avatar: 'img/avatars/user' + getRandomNumber(1, 8) + '.png'
    }
-   {
+    {
     title: getRandomItem(TITLES),
     address: 'location.x, location.y',
     price: getRandomNumber(100, 10000000),
     type: getRandomItem(TYPES),
     room: getRandomNumber(1, 15),
     guests: getRandomNumber(1, 20),
-    checkin: getRandomItem(CHECKTIMES).
-    checkout: getRandomItem (CHECKTIMES),
+    checkin: getRandomItem(CHECKTIMES),
+    checkout: getRandomItem(CHECKTIMES),
     features: getRandomItem (FEATURES),
     description: getRandomItem(DESCRIPTIONS),
     photos: getRandomItem(PHOTOS),
