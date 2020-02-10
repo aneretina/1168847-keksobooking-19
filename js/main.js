@@ -25,7 +25,7 @@ activateMap();
 
 //   фунция для генерации случайного числа
 var getRandomNumber = function (min, max) {
-  return Math.round(Math.random() * (max - min) + max);
+  return Math.round(Math.random() * (max - min) + min);
 };
 
 //   фунция для генерации случайного элемента
@@ -34,14 +34,14 @@ var getRandomItem = function (arr) {
 };
 
 // создание предложения
-var createOffer = function (number) {
+var createOffers = function (number) {
   var offerList = [];
   for (var i = 0; i < number; i++) {
     offerList.push({
-      'author': {
-        avatar: 'img/avatars/user' + getRandomNumber(1, 8) + '.png'
+      author: {
+        avatar: 'img/avatars/user' + '0' + getRandomNumber(1, 8) + '.png'
       },
-      'offer':
+      offer:
    {
      title: getRandomItem(TITLES),
      address: 'location.x, location.y',
@@ -55,19 +55,20 @@ var createOffer = function (number) {
      description: getRandomItem(DESCRIPTIONS),
      photos: getRandomItem(PHOTOS),
    },
-      'location': {
+      location: {
         x: getRandomNumber(LOCATION_MIN_X, LOCATION_MAX_X),
         y: getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y)
       }
     });
   }
+  return offerList;
 };
 
-var genOffer = createOffer(OFFERS_COUNT);
+var genOffer = createOffers(OFFERS_COUNT);
 
 // Задание 3.3
 var pinTemplate = document.querySelector('#pin').content;
-var mapPin = pinTemplate.querySelector('.map__pins');
+var mapPins = pinTemplate.querySelector('.map__pins');
 
 // Клонирую шаблон для обектов
 
@@ -75,17 +76,20 @@ var createPin = function (offerInfo) {
   var clonedPin = pinTemplate.cloneNode(true);
   clonedPin.style.left = offerInfo.location.x + PIN_WIDTH / 2 + 'px';
   clonedPin.style.top = offerInfo.location.y + PIN_HEIGHT + 'px';
-
-  clonedPin.querySelector('img').src = offerInfo.author.avatar;
-  clonedPin.querySelector('img').alt = offerInfo.offer.title;
+  var pinICON = clonedPin.querySelector('img');
+  pinICON.src = offerInfo.author.avatar;
+  pinICON.alt = offerInfo.offer.title;
 
   return clonedPin;
 };
 
-var createPins = function (offersInfo) {
+var createPins = function () {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < OFFERS_COUNT; i++) {
-    fragment.appendChild(createPin(offersInfo[i]));
+    fragment.appendChild(createPin(genOffer[i]));
   }
-  mapPin.appendChild(fragment);
+
+  mapPins.appendChild(fragment);
 };
+
+createPins();
