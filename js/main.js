@@ -5,8 +5,7 @@ var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECKTIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var DESCRIPTIONS = ['семейный отель', 'бюджетный хостел', 'уютная квартра', 'на берегу моря', 'элитная вилла', 'загородный дом', 'королевский замок'];
-var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
-];
+var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 var LOCATION_MIN_X = 1;
 var LOCATION_MAX_X = 1200;
@@ -41,20 +40,19 @@ var createOffers = function (number) {
       author: {
         avatar: 'img/avatars/user' + '0' + getRandomNumber(1, 8) + '.png'
       },
-      offer:
-   {
-     title: getRandomItem(TITLES),
-     address: 'location.x, location.y',
-     price: getRandomNumber(100, 10000000),
-     type: getRandomItem(TYPES),
-     room: getRandomNumber(1, 15),
-     guests: getRandomNumber(1, 20),
-     checkin: getRandomItem(CHECKTIMES),
-     checkout: getRandomItem(CHECKTIMES),
-     features: getRandomItem(FEATURES),
-     description: getRandomItem(DESCRIPTIONS),
-     photos: getRandomItem(PHOTOS),
-   },
+      offer: {
+        title: getRandomItem(TITLES),
+        address: 'location.x, location.y',
+        price: getRandomNumber(100, 10000000),
+        type: getRandomItem(TYPES),
+        room: getRandomNumber(1, 15),
+        guests: getRandomNumber(1, 20),
+        checkin: getRandomItem(CHECKTIMES),
+        checkout: getRandomItem(CHECKTIMES),
+        features: getRandomItem(FEATURES),
+        description: getRandomItem(DESCRIPTIONS),
+        photos: getRandomItem(PHOTOS),
+      },
       location: {
         x: getRandomNumber(LOCATION_MIN_X, LOCATION_MAX_X),
         y: getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y)
@@ -74,11 +72,11 @@ var mapPins = document.querySelector('.map__pins');
 
 var createPin = function (offerInfo) {
   var clonedPin = pinTemplate.cloneNode(true);
-  clonedPin.style.left = offerInfo.location.x + PIN_WIDTH / 2 + 'px';
-  clonedPin.style.top = offerInfo.location.y + PIN_HEIGHT + 'px';
-  var pinICON = clonedPin.querySelector('img');
-  pinICON.src = offerInfo.author.avatar;
-  pinICON.alt = offerInfo.offer.title;
+  clonedPin.style.left = offerInfo.location.x - PIN_WIDTH / 2 + 'px';
+  clonedPin.style.top = offerInfo.location.y - PIN_HEIGHT + 'px';
+  var pinIcon = clonedPin.querySelector('img');
+  pinIcon.src = offerInfo.author.avatar;
+  pinIcon.alt = offerInfo.offer.title;
 
   return clonedPin;
 };
