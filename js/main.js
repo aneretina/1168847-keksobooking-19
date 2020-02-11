@@ -67,8 +67,8 @@ var createOffers = function (number) {
 var genOffer = createOffers(OFFERS_COUNT);
 
 // Задание 3.3
-var pinTemplate = document.querySelector('#pin').content;
-var mapPins = pinTemplate.querySelector('.map__pins');
+var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+var mapPins = document.querySelector('.map__pins');
 
 // Клонирую шаблон для обектов
 
@@ -88,8 +88,8 @@ var createPins = function () {
   for (var i = 0; i < OFFERS_COUNT; i++) {
     fragment.appendChild(createPin(genOffer[i]));
   }
-
   mapPins.appendChild(fragment);
 };
+
 
 createPins();
