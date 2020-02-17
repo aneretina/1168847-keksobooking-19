@@ -5,7 +5,10 @@ var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECKTIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var DESCRIPTIONS = ['семейный отель', 'бюджетный хостел', 'уютная квартра', 'на берегу моря', 'элитная вилла', 'загородный дом', 'королевский замок'];
-var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var PHOTOS = [
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 var RESIDENCE_TYPES = {
   flat: 'Квартира',
@@ -39,30 +42,42 @@ var getRandomItem = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
+// Функцмя случайной длины массива
+var getRandomLength = function (arr) {
+  var lengthArray = Math.floor(Math.random() * arr.length);
+  var randomArray = [];
+  for (var i = 0; i < lengthArray; i++) {
+    randomArray.push(arr[i]);
+  }
+  return randomArray;
+};
+
 // создание предложения
 var createOffers = function (number) {
   var offerList = [];
   for (var i = 0; i < number; i++) {
+    var coordinateX = getRandomNumber(LOCATION_MIN_X, LOCATION_MAX_X);
+    var coordinateY = getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y);
     offerList.push({
       author: {
         avatar: 'img/avatars/user' + '0' + getRandomNumber(1, 8) + '.png'
       },
       offer: {
         title: getRandomItem(TITLES),
-        address: location.x + ', ' + location.y,
+        address: coordinateX + ', ' + coordinateY,
         price: getRandomNumber(100, 10000000),
         type: getRandomItem(TYPES),
-        room: getRandomNumber(1, 15),
+        rooms: getRandomNumber(1, 15),
         guests: getRandomNumber(1, 20),
         checkin: getRandomItem(CHECKTIMES),
         checkout: getRandomItem(CHECKTIMES),
         features: getRandomItem(FEATURES),
         description: getRandomItem(DESCRIPTIONS),
-        photos: getRandomItem(PHOTOS),
+        photos: getRandomLength(PHOTOS),
       },
       location: {
-        x: getRandomNumber(LOCATION_MIN_X, LOCATION_MAX_X),
-        y: getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y)
+        x: coordinateX,
+        y: coordinateY
       }
     });
   }
