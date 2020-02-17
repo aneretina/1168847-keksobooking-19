@@ -49,7 +49,7 @@ var createOffers = function (number) {
       },
       offer: {
         title: getRandomItem(TITLES),
-        address: 'location.x, location.y',
+        address: location.x + ', ' + location.y,
         price: getRandomNumber(100, 10000000),
         type: getRandomItem(TYPES),
         room: getRandomNumber(1, 15),
@@ -100,9 +100,10 @@ createPins();
 
 // Задание 3.3
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-var clonedCard = cardTemplate.cloneNode(true);
+
 // создаю карточки на основе данных
 var createCard = function (cardElement) {
+  var clonedCard = cardTemplate.cloneNode(true);
   clonedCard.querySelector('.popup__avatar').src = cardElement.author.avatar;
   clonedCard.querySelector('.popup__title').textContent = cardElement.offer.title;
   clonedCard.querySelector('.popup__text--address').textContent = cardElement.offer.address;
@@ -127,7 +128,7 @@ var mapFilters = map.querySelector('.map__filters-container');
 var createCards = function () {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < OFFERS_COUNT; i++) {
-    fragment.appendChild(createPin(createCard[i]));
+    fragment.appendChild(createCard(genOffer[i]));
   }
   map.insertBefore(fragment, mapFilters);
 };
