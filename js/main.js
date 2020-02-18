@@ -102,9 +102,10 @@ var createPin = function (offerInfo) {
 
   return clonedPin;
 };
+// создание фрагмента
+var fragment = document.createDocumentFragment();
 
 var createPins = function () {
-  var fragment = document.createDocumentFragment();
   for (var i = 0; i < OFFERS_COUNT; i++) {
     fragment.appendChild(createPin(genOffer[i]));
   }
@@ -129,9 +130,11 @@ var createCard = function (cardElement) {
   clonedCard.querySelector('.popup__description').textContent = cardElement.offer.description;
 
   var photoCards = clonedCard.querySelector('.popup__photos');
-  var photoCard = photoCards.querySelector('.popup__photo');
-  for (var i = 0; i < OFFERS_COUNT; i++) {
+  for (var i = 0; i < PHOTOS.length; i++) {
+    var photoCard = document.createElement('img');
+    photoCard.classList = 'popup__photo';
     photoCard.src = cardElement.offer.photos[i];
+    photoCard.style = 'width: 45px; height: 40px;';
     photoCards.appendChild(photoCard);
   }
   return clonedCard;
@@ -141,11 +144,8 @@ var map = document.querySelector('.map');
 var mapFilters = map.querySelector('.map__filters-container');
 
 var createCards = function () {
-  var fragment = document.createDocumentFragment();
-  for (var i = 0; i < OFFERS_COUNT; i++) {
-    fragment.appendChild(createCard(genOffer[i]));
-  }
-  map.insertBefore(fragment, mapFilters);
+  var card = createCard(genOffer[0]);
+  map.insertBefore(card, mapFilters);
 };
 
 createCards();
