@@ -130,15 +130,17 @@ var createCard = function (cardElement) {
   clonedCard.querySelector('.popup__description').textContent = cardElement.offer.description;
 
   var photoCards = clonedCard.querySelector('.popup__photos');
-  for (var i = 0; i < PHOTOS.length; i++) {
+  for (var i = 0; i < OFFERS_COUNT; i++) {
     var photoCard = document.createElement('img');
     photoCard.classList = 'popup__photo';
     photoCard.src = cardElement.offer.photos[i];
     photoCard.style = 'width: 45px; height: 40px;';
     photoCards.appendChild(photoCard);
   }
+
   return clonedCard;
 };
+
 
 var map = document.querySelector('.map');
 var mapFilters = map.querySelector('.map__filters-container');
