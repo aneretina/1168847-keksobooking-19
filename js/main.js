@@ -44,13 +44,9 @@ var getRandomItem = function (arr) {
 
 // Функцмя случайной длины массива
 var getRandomLength = function (arr) {
-  var lengthArray = Math.floor(Math.random() * arr.length);
-  var randomArray = [];
-  for (var i = 0; i < lengthArray; i++) {
-    randomArray.push(arr[i]);
-  }
-  return randomArray;
+  return arr.slice(getRandomNumber(0, arr.length - 1));
 };
+
 
 // создание предложения
 var createOffers = function (number) {
@@ -129,13 +125,13 @@ var createCard = function (cardElement) {
   clonedCard.querySelector('.popup__text--time').textContent = 'заезд после ' + cardElement.offer.checkin + ', выезд до ' + cardElement.offer.checkout;
   clonedCard.querySelector('.popup__description').textContent = cardElement.offer.description;
 
-  var photoCards = clonedCard.querySelector('.popup__photos');
-  for (var i = 0; i < OFFERS_COUNT; i++) {
-    var photoCard = document.createElement('img');
-    photoCard.classList = 'popup__photo';
-    photoCard.src = cardElement.offer.photos[i];
-    photoCard.style = 'width: 45px; height: 40px;';
-    photoCards.appendChild(photoCard);
+  var photosCard = clonedCard.querySelector('.popup__photos');
+  var photoCard = photosCard.querySelector('.popup__photo');
+  photosCard.innerHTML = '';
+  for (var i = 0; i < cardElement.offer.photos.length; i++) {
+    var photo = photoCard.cloneNode(true);
+    photo.src = cardElement.offer.photos[i];
+    clonedCard.appendChild(photo);
   }
 
   return clonedCard;
@@ -145,9 +141,5 @@ var createCard = function (cardElement) {
 var map = document.querySelector('.map');
 var mapFilters = map.querySelector('.map__filters-container');
 
-var createCards = function () {
-  var card = createCard(genOffer[0]);
-  map.insertBefore(card, mapFilters);
-};
-
-createCards();
+var card = createCard(genOffer[0]);
+map.insertBefore(card, mapFilters);
