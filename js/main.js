@@ -131,7 +131,7 @@ var createCard = function (cardElement) {
   for (var i = 0; i < cardElement.offer.photos.length; i++) {
     var photo = photoCard.cloneNode(true);
     photo.src = cardElement.offer.photos[i];
-    clonedCard.appendChild(photo);
+    photosCard.appendChild(photo);
   }
 
   return clonedCard;
