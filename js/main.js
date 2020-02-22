@@ -155,6 +155,7 @@ mainPin.addEventListener('mousedown', function (evt) {
   if (evt.which === 1) {
     activateMap();
   }
+  setPinCoordinates();
 });
 
 mainPin.addEventListener('keydown', function (evt) {
@@ -163,12 +164,31 @@ mainPin.addEventListener('keydown', function (evt) {
   }
 });
 
+// Функция деактивации полей
+var deactivateFields = function () {
+  for (var i = 0; i < fields.length - 1; i++) {
+    fields[i].addAttribute('disabled', 'disabled');
+  }
+};
+
+deactivateFields();
 // Функция активации полей
 var activateFields = function () {
   for (var i = 0; i < fields.length - 1; i++) {
     fields[i].removeAttribute('disabled');
   }
 };
+
+var addressInput = adForm.querySelector('#address');
+
+var setPinCoordinates = function () {
+  var PinCoordinates = {
+    left: parseInt(mainPin.style.left, 10) + (PIN_WIDTH / 2),
+    top: parseInt(mainPin.style.top, 10) + PIN_HEIGHT
+  };
+  return addressInput.setAttribute('value', PinCoordinates.left + ', ' + PinCoordinates.top);
+};
+
 
 //  Валидация (гости // комнаты)
 
@@ -183,10 +203,12 @@ var validateRoomsGuests = function () {
   } else if (roomsValue === '2' && (guestsValue !== '1' || guestsValue !== '2')) {
     roomsNumber.setCustomValidity('2 комнаты — «для 1 гостя», «для 2 гостей»');
   } else if (roomsValue === '2' && (guestsValue !== '1' || guestsValue !== '2' || guestsValue !== '3')) {
-    roomsNumber.setCustomValidity('3 комнаты — «для 1 гостя», «для 2 гостей», «для 3 гостей»');
+    roomsNumber.setCustomValidity('3 комнаты — «для 3 гостей», «для 2 гостей», «для 1 гостя»');
   } else if (roomsValue === 100 && guestsValue !== 0) {
     roomsNumber.setCustomValidity('Допустимо 100 комнат — «не для гостей»');
   } else {
     roomsNumber.setCustomValidity('');
   }
 };
+
+validateRoomsGuests();
