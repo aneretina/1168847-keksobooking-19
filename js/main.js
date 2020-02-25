@@ -140,16 +140,17 @@ map.insertBefore(card, mapFilters);
 
 // Задание 4.Обрабока событий
 var adForm = document.querySelector('.ad-form');
-var fields = document.querySelectorAll('[name="fieldset"]');
+var fields = adForm.querySelectorAll('fieldset');
 var mainPin = document.querySelector('.map__pin--main');
 var ENTER_KEY = 'Enter';
 
 var activateMap = function () {
-  document.querySelector('.map').classList.remove('map--faded');
+  map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
   mapPins.appendChild(fragment);
   activateFields();
 };
+
 
 mainPin.addEventListener('mousedown', function (evt) {
   if (evt.which === 1) {
@@ -167,11 +168,12 @@ mainPin.addEventListener('keydown', function (evt) {
 // Функция деактивации полей
 var deactivateFields = function () {
   for (var i = 0; i < fields.length - 1; i++) {
-    fields[i].addAttribute('disabled', 'disabled');
+    fields[i].setAttribute('disabled', 'true');
   }
 };
 
 deactivateFields();
+
 // Функция активации полей
 var activateFields = function () {
   for (var i = 0; i < fields.length - 1; i++) {
@@ -189,26 +191,58 @@ var setPinCoordinates = function () {
   return addressInput.setAttribute('value', PinCoordinates.left + ', ' + PinCoordinates.top);
 };
 
-
 //  Валидация (гости // комнаты)
 
 var roomsNumber = adForm.querySelector('#room_number');
 var guestsNumber = adForm.querySelector('#capacity');
 
-var validateRoomsGuests = function () {
-  var roomsValue = Number(roomsNumber.value);
-  var guestsValue = Number(guestsNumber.value);
-  if (roomsValue === '1' && guestsValue !== '1') {
-    roomsNumber.setCustomValidity('1 комната — «для 1 гостя»');
-  } else if (roomsValue === '2' && (guestsValue !== '1' || guestsValue !== '2')) {
-    roomsNumber.setCustomValidity('2 комнаты — «для 1 гостя», «для 2 гостей»');
-  } else if (roomsValue === '2' && (guestsValue !== '1' || guestsValue !== '2' || guestsValue !== '3')) {
-    roomsNumber.setCustomValidity('3 комнаты — «для 3 гостей», «для 2 гостей», «для 1 гостя»');
-  } else if (roomsValue === 100 && guestsValue !== 0) {
-    roomsNumber.setCustomValidity('Допустимо 100 комнат — «не для гостей»');
-  } else {
-    roomsNumber.setCustomValidity('');
-  }
-};
+//  adForm.addEventListener('change', function (evt) {
+//   evt.preventDefault();
+//   var roomsValue = Number(roomsNumber.value);
+//   var guestsValue = Number(guestsNumber.value);
+//   if (roomsValue === 1 && guestsValue !== 1) {
+//     guestsNumber.setCustomValidity('1 комната — «для 1 гостя»');
+//   } else if (roomsValue === 2 && (guestsValue === 0 || guestsValue === 3)) {
+//     guestsNumber.setCustomValidity('2 комнаты — «для 1 гостя», «для 2 гостей»');
+//   } else if (roomsValue === 3 && guestsValue === 0) {
+//     guestsNumber.setCustomValidity('3 комнаты — «для 3 гостей», «для 2 гостей», «для 1 гостя»');
+//   } else if (roomsValue === 100 && guestsValue !== 0) {
+//     guestsNumber.setCustomValidity('Допустимо 100 комнат — «не для гостей»');
+//   } else {
+//     guestsNumber.setCustomValidity('');
+//   }
+// });
 
-validateRoomsGuests();
+adForm.addEventListener('change', function (evt) {
+  evt.preventDefault();
+  var guestOption1 = guestsNumber.querySelector('option[value="1"]');
+  var guestOption2 = guestsNumber.querySelector('option[value="2"]');
+  var guestOption3 = guestsNumber.querySelector('option[value="3"]');
+  var guestOption0 = guestsNumber.querySelector('option[value="0"]');
+
+  guestOption3.removeAttribute('disabled');
+  guestOption2.removeAttribute('disabled');
+  guestOption1.removeAttribute('disabled');
+  guestOption0.removeAttribute('disabled');
+
+  if (roomsNumber.value === '1') {
+    guestOption3.setAttribute('disabled', 'true');
+    guestOption2.setAttribute('disabled', 'true');
+    guestOption0.setAttribute('disabled', 'true');
+  }
+
+  if (roomsNumber.value === '2') {
+    guestOption3.setAttribute('disabled', 'true');
+    guestOption0.setAttribute('disabled', 'true');
+  }
+
+  if (roomsNumber.value === '3') {
+    guestOption0.setAttribute('disabled', 'true');
+  }
+
+  if (roomsNumber.value === '100') {
+    guestOption3.setAttribute('disabled', 'true');
+    guestOption2.setAttribute('disabled', 'true');
+    guestOption1.remove();
+  }
+});
