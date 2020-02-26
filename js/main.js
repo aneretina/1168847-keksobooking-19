@@ -183,6 +183,7 @@ var activateFields = function () {
 
 var addressInput = adForm.querySelector('#address');
 
+// Координаты метки при активном состоянии
 var setPinCoordinates = function () {
   var PinCoordinates = {
     left: parseInt(mainPin.style.left, 10) + (PIN_WIDTH / 2),
@@ -191,6 +192,7 @@ var setPinCoordinates = function () {
   return addressInput.setAttribute('value', PinCoordinates.left + ', ' + PinCoordinates.top);
 };
 
+// Координаты метки при неактивном состоянии
 var setPinCoordinatesDefault = function () {
   var PinCoordinates = {
     left: parseInt(mainPin.style.left, 10) + (PIN_WIDTH / 2),
@@ -206,12 +208,12 @@ setPinCoordinatesDefault();
 var roomsNumber = adForm.querySelector('#room_number');
 var guestsNumber = adForm.querySelector('#capacity');
 
+// Отправка формы
 adForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
 });
 
-guestsNumber.addEventListener('input', function (evt) {
-  evt.preventDefault();
+var checkRoomValidity = function () {
   var roomsValue = parseInt(roomsNumber.value, 10);
   var guestsValue = parseInt(guestsNumber.value, 10);
   if (roomsValue === 1 && guestsValue !== 1) {
@@ -225,4 +227,13 @@ guestsNumber.addEventListener('input', function (evt) {
   } else {
     guestsNumber.setCustomValidity('');
   }
-});
+};
+
+checkRoomValidity();
+
+var roomsInputHandler = function () {
+  checkRoomValidity();
+};
+
+guestsNumber.addEventListener('input', roomsInputHandler);
+roomsNumber.addEventListener('input', roomsInputHandler);
