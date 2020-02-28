@@ -185,23 +185,14 @@ var addressInput = adForm.querySelector('#address');
 
 // Координаты метки при активном состоянии
 var setPinCoordinates = function () {
-  var PinCoordinates = {
-    left: parseInt(mainPin.style.left, 10) + (PIN_WIDTH / 2),
-    top: parseInt(mainPin.style.top, 10) + PIN_HEIGHT
-  };
-  return addressInput.setAttribute('value', PinCoordinates.left + ', ' + PinCoordinates.top);
+  var pinCoordinatesLeft = parseInt(mainPin.style.left, 10) + (PIN_WIDTH / 2);
+  if (adForm.classList.contains('ad-form--disabled')) {
+    var pinCoordinatesTop = parseInt(mainPin.style.top, 10) + PIN_HEIGHT;
+  } else {
+    pinCoordinatesTop = parseInt(mainPin.style.top, 10) + (PIN_HEIGHT / 2);
+  }
+  return addressInput.setAttribute('value', pinCoordinatesLeft + ', ' + pinCoordinatesTop);
 };
-
-// Координаты метки при неактивном состоянии
-var setPinCoordinatesDefault = function () {
-  var PinCoordinates = {
-    left: parseInt(mainPin.style.left, 10) + (PIN_WIDTH / 2),
-    top: parseInt(mainPin.style.top, 10) + (PIN_HEIGHT / 2)
-  };
-  return addressInput.setAttribute('value', PinCoordinates.left + ', ' + PinCoordinates.top);
-};
-
-setPinCoordinatesDefault();
 
 //  Валидация (гости // комнаты)
 
