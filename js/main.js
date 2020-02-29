@@ -184,16 +184,12 @@ var activateFields = function () {
 var addressInput = adForm.querySelector('#address');
 
 // Координаты метки при активном состоянии
+
 var setPinCoordinates = function () {
   var pinCoordinatesLeft = parseInt(mainPin.style.left, 10) + (PIN_WIDTH / 2);
-  if (adForm.classList.contains('ad-form--disabled')) {
-    var pinCoordinatesTop = parseInt(mainPin.style.top, 10) + PIN_HEIGHT;
-  } else {
-    pinCoordinatesTop = parseInt(mainPin.style.top, 10) + (PIN_HEIGHT / 2);
-  }
-  return addressInput.setAttribute('value', pinCoordinatesLeft + ', ' + pinCoordinatesTop);
+  var pinCoordinatesTop = adForm.classList.contains('ad-form--disabled') ? parseInt(mainPin.style.top, 10) + PIN_HEIGHT : parseInt(mainPin.style.top, 10) + (PIN_HEIGHT / 2);
+  addressInput.value = pinCoordinatesLeft + ', ' + pinCoordinatesTop;
 };
-
 //  Валидация (гости // комнаты)
 
 var roomsNumber = adForm.querySelector('#room_number');
