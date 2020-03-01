@@ -27,10 +27,6 @@ var PIN_HEIGHT = 44;
 
 
 // 2. убираем класс у map
-var activateMap = function () {
-  document.querySelector('.map').classList.remove('map--faded');
-};
-activateMap();
 
 //   фунция для генерации случайного числа
 var getRandomNumber = function (min, max) {
@@ -105,7 +101,6 @@ var createPins = function () {
   for (var i = 0; i < OFFERS_COUNT; i++) {
     fragment.appendChild(createPin(genOffer[i]));
   }
-  mapPins.appendChild(fragment);
 };
 
 createPins();
@@ -133,7 +128,6 @@ var createCard = function (cardElement) {
     photo.src = cardElement.offer.photos[i];
     photosCard.appendChild(photo);
   }
-
   return clonedCard;
 };
 
@@ -143,3 +137,90 @@ var mapFilters = map.querySelector('.map__filters-container');
 
 var card = createCard(genOffer[0]);
 map.insertBefore(card, mapFilters);
+
+// Задание 4.Обрабока событий
+var adForm = document.querySelector('.ad-form');
+var fields = adForm.querySelectorAll('fieldset');
+var mainPin = document.querySelector('.map__pin--main');
+var ENTER_KEY = 'Enter';
+
+var activateMap = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  mapPins.appendChild(fragment);
+  activateFields();
+};
+
+
+mainPin.addEventListener('mousedown', function (evt) {
+  if (evt.which === 1) {
+    activateMap();
+  }
+  setPinCoordinates();
+});
+
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.key === ENTER_KEY) {
+    activateMap();
+  }
+});
+
+// Функция деактивации полей
+var deactivateFields = function () {
+  for (var i = 0; i < fields.length; i++) {
+    fields[i].setAttribute('disabled', 'true');
+  }
+};
+
+deactivateFields();
+
+// Функция активации полей
+var activateFields = function () {
+  for (var i = 0; i < fields.length; i++) {
+    fields[i].removeAttribute('disabled');
+  }
+};
+
+var addressInput = adForm.querySelector('#address');
+
+// Координаты метки при активном состоянии
+
+var setPinCoordinates = function () {
+  var pinCoordinatesLeft = parseInt(mainPin.style.left, 10) + (PIN_WIDTH / 2);
+  var pinCoordinatesTop = adForm.classList.contains('ad-form--disabled') ? parseInt(mainPin.style.top, 10) + PIN_HEIGHT : parseInt(mainPin.style.top, 10) + (PIN_HEIGHT / 2);
+  addressInput.value = pinCoordinatesLeft + ', ' + pinCoordinatesTop;
+};
+//  Валидация (гости // комнаты)
+
+var roomsNumber = adForm.querySelector('#room_number');
+var guestsNumber = adForm.querySelector('#capacity');
+
+// Отправка формы
+adForm.addEventListener('submit', function (evt) {
+  evt.preventDefault();
+});
+
+var checkRoomValidity = function () {
+  var roomsValue = parseInt(roomsNumber.value, 10);
+  var guestsValue = parseInt(guestsNumber.value, 10);
+  if (roomsValue === 1 && guestsValue !== 1) {
+    guestsNumber.setCustomValidity('1 комната — «для 1 гостя»');
+  } else if (roomsValue === 2 && (guestsValue === 0 || guestsValue === 3)) {
+    guestsNumber.setCustomValidity('2 комнаты — «для 1 гостя», «для 2 гостей»');
+  } else if (roomsValue === 3 && guestsValue === 0) {
+    guestsNumber.setCustomValidity('3 комнаты — «для 3 гостей», «для 2 гостей», «для 1 гостя»');
+  } else if (roomsValue === 100 && guestsValue !== 0) {
+    guestsNumber.setCustomValidity('Допустимо 100 комнат — «не для гостей»');
+  } else {
+    guestsNumber.setCustomValidity('');
+  }
+};
+
+checkRoomValidity();
+
+var roomsInputHandler = function () {
+  checkRoomValidity();
+};
+
+guestsNumber.addEventListener('input', roomsInputHandler);
+roomsNumber.addEventListener('input', roomsInputHandler);
