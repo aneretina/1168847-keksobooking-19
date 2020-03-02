@@ -17,6 +17,13 @@ var RESIDENCE_TYPES = {
   palace: 'Дворец'
 };
 
+var RESIDENCE_PRICES = {
+  bungalo: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000
+};
+
 var LOCATION_MIN_X = 1;
 var LOCATION_MAX_X = 1200;
 var LOCATION_MIN_Y = 130;
@@ -143,6 +150,7 @@ var adForm = document.querySelector('.ad-form');
 var fields = adForm.querySelectorAll('fieldset');
 var mainPin = document.querySelector('.map__pin--main');
 var ENTER_KEY = 'Enter';
+var ESK_KEY = 'Esc';
 
 var activateMap = function () {
   map.classList.remove('map--faded');
@@ -150,7 +158,6 @@ var activateMap = function () {
   mapPins.appendChild(fragment);
   activateFields();
 };
-
 
 mainPin.addEventListener('mousedown', function (evt) {
   if (evt.which === 1) {
@@ -218,9 +225,129 @@ var checkRoomValidity = function () {
 
 checkRoomValidity();
 
-var roomsInputHandler = function () {
+var roomInputHandler = function () {
   checkRoomValidity();
 };
 
-guestsNumber.addEventListener('input', roomsInputHandler);
-roomsNumber.addEventListener('input', roomsInputHandler);
+guestsNumber.addEventListener('input', roomInputHandler);
+roomsNumber.addEventListener('input', roomInputHandler);
+
+
+// Задание 4.2  Продолжение валидации
+// Задание 4.2  валидация заголовка
+var titleInput = adForm.querySelector('#title');
+var MIN_TITLE_LENGTH = 30;
+var MAX_TITLE_LENGTH = 100;
+
+var checkTitleValidity = function () {
+  var titleInputValue = titleInput.value;
+  if (titleInputValue === '') {
+    titleInput.setCustomValidity('Обязательное поле для заполнения');
+  } else if (titleInputValue.length < MIN_TITLE_LENGTH) {
+    titleInput.setCustomValidity('Минимальное количество: 30 символов');
+  } else if (titleInputValue.length > MAX_TITLE_LENGTH) {
+    titleInput.setCustomValidity('Максимальное количество: 100 символов');
+  } else {
+    titleInput.setCustomValidity('');
+  }
+};
+
+var titleInputHandler = function () {
+  checkTitleValidity();
+};
+
+titleInput.addEventListener('input', titleInputHandler);
+
+var priceInput = adForm.querySelector('#price');
+
+var checkPriceValidity = function () {
+  var priceInputValue = parseInt(priceInput.value, 10);
+  if (priceInputValue === '') {
+    priceInput.setCustomValidity('Обязательное поле для заполнения');
+  } else if (priceInputValue > 1000000) {
+    priceInput.setCustomValidity('Максимальная цена за ночь: 1 000 000 руб.');
+  } else {
+    priceInput.setCustomValidity('');
+  }
+};
+
+var priceInputHandler = function () {
+  checkPriceValidity();
+};
+
+priceInput.addEventListener('input', priceInputHandler);
+
+var typeInput = adForm.querySelector('#type');
+
+var checkTypePriceValidity = function () {
+  priceInput.min = RESIDENCE_PRICES[typeInput.value];
+  priceInput.placeholder = RESIDENCE_PRICES[typeInput.value];
+};
+
+var typeInputHandler = function () {
+  checkTypePriceValidity();
+};
+
+typeInput.addEventListener('input', typeInputHandler);
+
+
+var timeInInput = adForm.querySelector('#timein');
+var timeOutInput = adForm.querySelector('#timeout');
+
+var checkTimeInValidity = function () {
+  timeOutInput.value = timeInInput.value;
+};
+
+var checkTimeOutValidity = function () {
+  timeInInput.value = timeOutInput.value;
+};
+
+var timeInInputHandler = function () {
+  checkTimeInValidity();
+};
+
+var timeOutInputHandler = function () {
+  checkTimeOutValidity();
+};
+
+timeInInput.addEventListener('input', timeInInputHandler);
+timeOutInput.addEventListener('input', timeOutInputHandler);
+
+// Задание 4.2 Карточки объявлений
+var closeButton = map.querySelector('.popup__close');
+var activeMapCard = map.querySelector('.map__card');
+
+
+var showCard = function () {
+  var pinsWithoutMain = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+  // Функция активации карты
+  var openCard = function () {
+    if (activeMapCard) {
+      activeMapCard.remove();
+    }
+    createCard();
+    closeButton.removeEventListener('click', disableCard);
+    closeButton.removeEventListener('keydown', KeydownHandler);
+  };
+  // Деактивация карты
+  closeButton.addEventListener('click', disableCard);
+  closeButton.addEventListener('keydown', KeydownHandler);
+
+  pinsWithoutMain.forEach(function (element) {
+    element.addEventListener('click', function () {
+      openCard();
+    });
+  });
+};
+
+var disableCard = function () {
+  activeMapCard.classList.add('hidden');
+};
+
+var KeydownHandler = function (evt) {
+  if (evt.key === ESK_KEY || evt.key === ENTER_KEY) {
+    disableCard();
+  }
+};
+
+showCard();
