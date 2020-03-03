@@ -114,9 +114,9 @@ var createPins = function () {
   for (var i = 0; i < OFFERS_COUNT; i++) {
     fragment.appendChild(createPin(genOffer[i]));
   }
+  mapPins.appendChild(fragment);
 };
 
-createPins();
 
 // Задание 3.3
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
@@ -154,11 +154,13 @@ var adForm = document.querySelector('.ad-form');
 var fields = adForm.querySelectorAll('fieldset');
 var mainPin = document.querySelector('.map__pin--main');
 
+
 var activateMap = function () {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
-  mapPins.appendChild(fragment);
   activateFields();
+  createPins();
+  showCard();
 };
 
 mainPin.addEventListener('mousedown', function (evt) {
@@ -227,12 +229,12 @@ var checkRoomValidity = function () {
 
 checkRoomValidity();
 
-var roomInputHandler = function () {
+var roomsInputHandler = function () {
   checkRoomValidity();
 };
 
-guestsNumber.addEventListener('input', roomInputHandler);
-roomsNumber.addEventListener('input', roomInputHandler);
+guestsNumber.addEventListener('input', roomsInputHandler);
+roomsNumber.addEventListener('input', roomsInputHandler);
 
 
 // Задание 4.2  Продолжение валидации
@@ -314,49 +316,39 @@ timeInInput.addEventListener('input', timeInInputHandler);
 timeOutInput.addEventListener('input', timeOutInputHandler);
 
 // Задание 4.2 Карточки объявлений
-var closeButton = map.querySelector('.popup__close');
-var activeMapCard = map.querySelector('.map__card');
 
-var renderCard = function () {
-  var cardCloned = cardTemplate.cloneNode(true);
-  cardCloned.classList.add('hidden');
-  fragment.appendChild(cardCloned);
-  map.insertBefore(fragment, mapFilters);
+
+var closeCard = function () {
+  var newCard = map.querySelector('.map__card');
+  if (newCard) {
+    map.removeChild(newCard);
+  }
 };
-
-renderCard();
 
 var showCard = function () {
   var pinsWithoutMain = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
 
-  closeButton.addEventListener('click', disableCard);
-  closeButton.addEventListener('keydown', keydownHandler);
-
-  function keydownHandler(evt) {
-    if (evt.key === ESC_KEY || evt.key === ENTER_KEY) {
-      disableCard();
-    }
-  }
-
-  pinsWithoutMain.forEach(function (element) {
-    element.addEventListener('click', function () {
-      disableCard();
+  pinsWithoutMain.forEach(function (pin) {
+    pin.addEventListener('click', function () {
+      var oldCard = map.querySelector('.map__card');
+      if (oldCard) {
+        map.removeChild(oldCard);
+      }
+      var card = createCard(genOffer[0]);
+      map.insertBefore(card, mapFilters);
     });
   });
-};
 
-var disableCard = function () {
-  if (activeMapCard) {
-    activeMapCard.classList.add('hidden');
-  }
-  closeButton.removeEventListener('click', disableCard);
-  closeButton.removeEventListener('keydown', keydownHandler);
+  map.querySelector('.map__card').addEventListener('click', closeCard);
+  map.querySelector('.popup__close').addEventListener('click', closeCard);
+
+  document.addEventListener('keydown', keydownHandler);
+
 };
 
 function keydownHandler(evt) {
+  evt.preventDefault();
   if (evt.key === ESC_KEY || evt.key === ENTER_KEY) {
-    disableCard();
+    closeCard();
   }
 }
-
-showCard();
