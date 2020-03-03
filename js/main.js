@@ -32,6 +32,12 @@ var LOCATION_MAX_Y = 630;
 var PIN_WIDTH = 40;
 var PIN_HEIGHT = 44;
 
+var MIN_TITLE_LENGTH = 30;
+var MAX_TITLE_LENGTH = 100;
+
+var ENTER_KEY = 'Enter';
+var ESC_KEY = 'Escape';
+
 
 // 2. убираем класс у map
 
@@ -142,15 +148,11 @@ var createCard = function (cardElement) {
 var map = document.querySelector('.map');
 var mapFilters = map.querySelector('.map__filters-container');
 
-var card = createCard(genOffer[0]);
-map.insertBefore(card, mapFilters);
 
 // Задание 4.Обрабока событий
 var adForm = document.querySelector('.ad-form');
 var fields = adForm.querySelectorAll('fieldset');
 var mainPin = document.querySelector('.map__pin--main');
-var ENTER_KEY = 'Enter';
-var ESK_KEY = 'Esc';
 
 var activateMap = function () {
   map.classList.remove('map--faded');
@@ -236,8 +238,6 @@ roomsNumber.addEventListener('input', roomInputHandler);
 // Задание 4.2  Продолжение валидации
 // Задание 4.2  валидация заголовка
 var titleInput = adForm.querySelector('#title');
-var MIN_TITLE_LENGTH = 30;
-var MAX_TITLE_LENGTH = 100;
 
 var checkTitleValidity = function () {
   var titleInputValue = titleInput.value;
@@ -317,37 +317,46 @@ timeOutInput.addEventListener('input', timeOutInputHandler);
 var closeButton = map.querySelector('.popup__close');
 var activeMapCard = map.querySelector('.map__card');
 
+var renderCard = function () {
+  var cardCloned = cardTemplate.cloneNode(true);
+  cardCloned.classList.add('hidden');
+  fragment.appendChild(cardCloned);
+  map.insertBefore(fragment, mapFilters);
+};
+
+renderCard();
 
 var showCard = function () {
   var pinsWithoutMain = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
-  // Функция активации карты
-  var openCard = function () {
-    if (activeMapCard) {
-      activeMapCard.remove();
-    }
-    createCard();
-    closeButton.removeEventListener('click', disableCard);
-    closeButton.removeEventListener('keydown', KeydownHandler);
-  };
-  // Деактивация карты
+
   closeButton.addEventListener('click', disableCard);
-  closeButton.addEventListener('keydown', KeydownHandler);
+  closeButton.addEventListener('keydown', keydownHandler);
+
+  function keydownHandler(evt) {
+    if (evt.key === ESC_KEY || evt.key === ENTER_KEY) {
+      disableCard();
+    }
+  }
 
   pinsWithoutMain.forEach(function (element) {
     element.addEventListener('click', function () {
-      openCard();
+      disableCard();
     });
   });
 };
 
 var disableCard = function () {
-  activeMapCard.classList.add('hidden');
+  if (activeMapCard) {
+    activeMapCard.classList.add('hidden');
+  }
+  closeButton.removeEventListener('click', disableCard);
+  closeButton.removeEventListener('keydown', keydownHandler);
 };
 
-var KeydownHandler = function (evt) {
-  if (evt.key === ESK_KEY || evt.key === ENTER_KEY) {
+function keydownHandler(evt) {
+  if (evt.key === ESC_KEY || evt.key === ENTER_KEY) {
     disableCard();
   }
-};
+}
 
 showCard();
