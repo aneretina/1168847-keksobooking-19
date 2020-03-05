@@ -336,6 +336,7 @@ var showCard = function () {
       }
       var card = createCard(genOffer[0]);
       map.insertBefore(card, mapFilters);
+
     });
   });
 
