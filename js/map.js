@@ -2,6 +2,8 @@
 
 (function () {
   var isActive = false;
+  var mainPin = document.querySelector('.map__pin--main');
+  var addressInput = document.querySelector('.ad-form').querySelector('#address');
 
   var activateMap = function () {
     if (isActive) {
@@ -9,12 +11,10 @@
     }
     window.card.map.classList.remove('map--faded');
     window.form.ad.classList.remove('ad-form--disabled');
-    window.form.toggleFields(false);
+    window.form.activateFields();
     window.pin.create();
     isActive = true;
   };
-
-  var mainPin = document.querySelector('.map__pin--main');
 
   var onLeftButtonClick = (function (evt) {
     if (evt.button === 0) {
@@ -29,8 +29,6 @@
       activateMap();
     }
   });
-
-  var addressInput = document.querySelector('.ad-form').querySelector('#address');
 
   var setPinCoordinates = function () {
     var pinCoordinatesLeft = parseInt(mainPin.style.left, 10) + (window.pin.Size.WIDTH / 2);

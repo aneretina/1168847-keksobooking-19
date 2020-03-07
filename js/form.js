@@ -1,12 +1,12 @@
 'use strict';
 
 (function () {
-  var titleLenth = {
+  var TitleLength = {
     MIN: 30,
     MAX: 100
   };
 
-  var accomodationPrices = {
+  var AccomodationPrices = {
     BUNGALO: {
       price: 0,
       placeholder: 0
@@ -25,7 +25,7 @@
     }
   };
 
-  var guestCounter = {
+  var GuestCounter = {
     HUNDRED: 100,
     ONE: 1,
     TWO: 2,
@@ -45,9 +45,17 @@
   var timeInInput = adForm.querySelector('#timein');
   var timeOutInput = adForm.querySelector('#timeout');
 
-  var toggleFields = function (isDisabled) {
+  var deactivateFields = function () {
     for (var i = 0; i < fields.length; i++) {
-      fields[i].setAttribute('disabled', isDisabled);
+      fields[i].setAttribute('disabled', 'true');
+    }
+  };
+
+  deactivateFields();
+
+  var activateFields = function () {
+    for (var i = 0; i < fields.length; i++) {
+      fields[i].removeAttribute('disabled');
     }
   };
 
@@ -58,13 +66,13 @@
   var checkRoomValidity = function () {
     var roomsValue = parseInt(roomsNumber.value, 10);
     var guestsValue = parseInt(guestsNumber.value, 10);
-    if (roomsValue === guestCounter.ONE && guestsValue !== guestCounter.ONE) {
+    if (roomsValue === GuestCounter.ONE && guestsValue !== GuestCounter.ONE) {
       guestsNumber.setCustomValidity('1 комната — «для 1 гостя»');
-    } else if (roomsValue === guestCounter.TWO && (guestsValue === guestCounter.ZERO || guestsValue === guestCounter.THREE)) {
+    } else if (roomsValue === GuestCounter.TWO && (guestsValue === GuestCounter.ZERO || guestsValue === GuestCounter.THREE)) {
       guestsNumber.setCustomValidity('2 комнаты — «для 1 гостя», «для 2 гостей»');
-    } else if (roomsValue === guestCounter.THREE && guestsValue === guestCounter.ZERO) {
+    } else if (roomsValue === GuestCounter.THREE && guestsValue === GuestCounter.ZERO) {
       guestsNumber.setCustomValidity('3 комнаты — «для 3 гостей», «для 2 гостей», «для 1 гостя»');
-    } else if (roomsValue === guestCounter.HINDRED && guestsValue !== guestCounter.ZERO) {
+    } else if (roomsValue === GuestCounter.HINDRED && guestsValue !== GuestCounter.ZERO) {
       guestsNumber.setCustomValidity('Допустимо 100 комнат — «не для гостей»');
     } else {
       guestsNumber.setCustomValidity('');
@@ -79,9 +87,9 @@
     var titleInputValue = titleInput.value;
     if (titleInputValue === '') {
       titleInput.setCustomValidity('Обязательное поле для заполнения');
-    } else if (titleInputValue.length < titleLenth.MIN) {
+    } else if (titleInputValue.length < TitleLength.MIN) {
       titleInput.setCustomValidity('Минимальное количество: 30 символов');
-    } else if (titleInputValue.length > titleLenth.MAX) {
+    } else if (titleInputValue.length > TitleLength.MAX) {
       titleInput.setCustomValidity('Максимальное количество: 100 символов');
     } else {
       titleInput.setCustomValidity('');
@@ -108,8 +116,8 @@
   };
 
   var checkTypePriceValidity = function () {
-    priceInput.min = accomodationPrices[typeInput.value.price];
-    priceInput.placeholder = accomodationPrices[typeInput.value.placeholder];
+    priceInput.min = AccomodationPrices[typeInput.value.price];
+    priceInput.placeholder = AccomodationPrices[typeInput.value.placeholder];
   };
 
   var typeInputHandler = function () {
@@ -142,7 +150,7 @@
 
   window.form = {
     ad: adForm,
-    toggleFields: toggleFields,
+    activateFields: activateFields,
     checkRoomValidity: checkRoomValidity,
     checkTitleValidity: checkTitleValidity,
     checkPriceValidity: checkPriceValidity,

@@ -1,28 +1,17 @@
 'use strict';
 
 (function () {
-  var accomodationTypes = {
+  var ESC = 'Escape';
+  var ENTER = 'Enter';
+
+  var AccomodationTypes = {
     FLAT: 'Квартира',
     HOUSE: 'Дом',
     BUNGALO: 'Бунгало',
     PALACE: 'Дворец'
   };
 
-  var keys = {
-    ENTER: 'Enter',
-    ESC: 'Escape'
-  };
-
-  var featuresClassMap = {
-    WIFI: 'popup__feature--wifi',
-    DISHWASHER: 'popup__feature--dishwasher',
-    PARKING: 'popup__feature--parking',
-    WASHER: 'popup__feature--washer',
-    ELEVATOR: 'popup__feature--elevator',
-    CONDITIONER: 'popup__feature--conditioner'
-  };
-
-  var accomodationPhotos = {
+  var AccomodationPhotos = {
     NAME: 'Фотография жилья',
     WIDTH: '45',
     HEIGHT: '40'
@@ -42,17 +31,17 @@
 
   var createFeature = function (value) {
     var featureElement = document.createElement('li');
-    featureElement.classList.add(featuresClassMap[value.toUpperCase()]);
+    featureElement.className = 'popup__feature popup__feature--' + value;
     return featureElement;
   };
 
-  var createPhoto = function (value, photoSrc) {
+  var createPhoto = function (value) {
     var photoElement = document.createElement('img');
     photoElement.className = 'popup__photo';
-    photoElement.src = photoSrc;
-    photoElement.alt = accomodationPhotos.NAME;
-    photoElement.width = accomodationPhotos.WIDTH;
-    photoElement.height = accomodationPhotos.HEIGHT;
+    photoElement.src = value;
+    photoElement.alt = AccomodationPhotos.NAME;
+    photoElement.width = AccomodationPhotos.WIDTH;
+    photoElement.height = AccomodationPhotos.HEIGHT;
     return photoElement;
   };
 
@@ -69,12 +58,11 @@
 
   var createCard = function (pin) {
     var clonedCard = cardTemplate.cloneNode(true);
-
-    // setCardValue(clonedCard, 'popup__avatar', pin.author.avatar);
+    clonedCard.querySelector('.popup__avatar').src = pin.author.avatar;
     setCardValue(clonedCard, '.popup__title', pin.offer.title);
     setCardValue(clonedCard, '.popup__text--address', pin.offer.address);
     setCardValue(clonedCard, '.popup__text--price', pin.offer.price ? pin.offer.price + '₽/ночь' : '');
-    setCardValue(clonedCard, '.popup__type', accomodationTypes[pin.offer.type]);
+    setCardValue(clonedCard, '.popup__type', AccomodationTypes[pin.offer.type]);
     setCardValue(clonedCard, '.popup__text--capacity', pin.offer.rooms && pin.offer.guests ? pin.offer.rooms + ' комнаты для ' + pin.offer.guests + ' гостей' : '');
     setCardValue(clonedCard, '.popup__text--time', pin.offer.checkin && pin.offer.checkout ? 'заезд после ' + pin.offer.checkin + ', выезд до ' + pin.offer.checkout : '');
     setCardValue(clonedCard, '.popup__description', pin.offer.description);
@@ -95,14 +83,22 @@
     var card = createCard(pin);
     var closeButton = card.querySelector('.popup__close');
     closeButton.addEventListener('click', closeCard);
-    closeButton.addEventListener('keydown', onPupopEscPress);
+    document.addEventListener('keydown', onPupopEscPress);
+    document.addEventListener('keydown', onPupopEnterPress);
     return card;
   };
 
   var onPupopEscPress = function (evt) {
     evt.preventDefault();
-    if (evt.key === keys.ESC) {
-      window.card.closeCard();
+    if (evt.key === ESC) {
+      closeCard();
+    }
+  };
+
+  var onPupopEnterPress = function (evt) {
+    evt.preventDefault();
+    if (evt.key === ENTER) {
+      closeCard();
     }
   };
 
