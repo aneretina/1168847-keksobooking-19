@@ -12,18 +12,18 @@
     'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
     'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
-  var LOCATION_MIN_X = 1;
-  var LOCATION_MAX_X = 1200;
-  var LOCATION_MIN_Y = 130;
-  var LOCATION_MAX_Y = 630;
-
-  var OFFERS_COUNT = 8;
+  var locationLimits = {
+    MIN_X: 1,
+    MAX_X: 1200,
+    MIN_Y: 130,
+    MAX_Y: 630,
+  };
 
   var createOffers = function (number) {
     var offerList = [];
     for (var i = 0; i < number; i++) {
-      var coordinateX = window.utils.getRandomNumber(LOCATION_MIN_X, LOCATION_MAX_X);
-      var coordinateY = window.utils.getRandomNumber(LOCATION_MIN_Y, LOCATION_MAX_Y);
+      var coordinateX = window.utils.getRandomNumber(locationLimits.MIN_X, locationLimits.MAX_X);
+      var coordinateY = window.utils.getRandomNumber(locationLimits.MIN_y, locationLimits.MAX_Y);
       offerList.push({
         author: {
           avatar: 'img/avatars/user' + '0' + window.utils.getRandomNumber(1, 8) + '.png'
@@ -50,7 +50,7 @@
     return offerList;
   };
 
-  var genOffer = createOffers(OFFERS_COUNT);
+  var genOffer = createOffers(window.const.OFFERS_COUNT);
 
   window.data = {
     genOffer: genOffer
