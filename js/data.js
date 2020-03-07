@@ -23,7 +23,7 @@
     var offerList = [];
     for (var i = 0; i < number; i++) {
       var coordinateX = window.utils.getRandomNumber(locationLimits.MIN_X, locationLimits.MAX_X);
-      var coordinateY = window.utils.getRandomNumber(locationLimits.MIN_y, locationLimits.MAX_Y);
+      var coordinateY = window.utils.getRandomNumber(locationLimits.MIN_Y, locationLimits.MAX_Y);
       offerList.push({
         author: {
           avatar: 'img/avatars/user' + '0' + window.utils.getRandomNumber(1, 8) + '.png'
@@ -37,7 +37,7 @@
           guests: window.utils.getRandomNumber(1, 20),
           checkin: window.utils.getRandomItem(CHECKTIMES),
           checkout: window.utils.getRandomItem(CHECKTIMES),
-          features: window.utils.getRandomItem(FEATURES),
+          features: window.utils.getRandomLength(FEATURES),
           description: window.utils.getRandomItem(DESCRIPTIONS),
           photos: window.utils.getRandomLength(PHOTOS),
         },
@@ -50,9 +50,8 @@
     return offerList;
   };
 
-  var genOffer = createOffers(window.const.OFFERS_COUNT);
 
   window.data = {
-    genOffer: genOffer
+    offers: createOffers(window.const.OFFERS_COUNT)
   };
 })();

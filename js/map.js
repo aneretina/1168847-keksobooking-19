@@ -11,7 +11,6 @@
     window.form.ad.classList.remove('ad-form--disabled');
     window.form.toggleFields(false);
     window.pin.create();
-    window.card.show();
     isActive = true;
   };
 

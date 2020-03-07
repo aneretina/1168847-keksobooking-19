@@ -12,15 +12,14 @@
   var fragment = document.createDocumentFragment();
   var mapFilters = document.querySelector('.map__filters-container');
 
-  var createPin = function (offerInfo) {
+  var createPin = function (pin) {
     var clonedPin = pinTemplate.cloneNode(true);
     var pinIcon = clonedPin.querySelector('img');
+    clonedPin.style.left = pin.location.x - pinSize.WIDTH / 2 + 'px';
+    clonedPin.style.top = pin.location.y - pinSize.HEIGHT + 'px';
 
-    clonedPin.style.left = offerInfo.location.x - pinSize.WIDTH / 2 + 'px';
-    clonedPin.style.top = offerInfo.location.y - pinSize.HEIGHT + 'px';
-
-    pinIcon.src = offerInfo.author.avatar;
-    pinIcon.alt = offerInfo.offer.title;
+    pinIcon.src = pin.author.avatar;
+    pinIcon.alt = pin.offer.title;
     return clonedPin;
   };
 
@@ -30,17 +29,17 @@
       if (oldCard) {
         window.card.map.removeChild(oldCard);
       }
-      var card = window.card.show[pin];
+      var card = window.card.show(pin);
       window.card.map.insertBefore(card, mapFilters);
     };
   };
 
   var createPins = function () {
-    for (var i = 0; i < window.data.OFFERS_COUNT; i++) {
-      var pinData = window.data.genOffer[i];
+    for (var i = 0; i < 5; i++) {
+      var pinData = window.data.offers[i];
       var pin = createPin(pinData);
-      pin.addEventListener('click', onPinClick);
-      fragment.appendChild(createPin([i]));
+      pin.addEventListener('click', onPinClick(pinData));
+      fragment.appendChild(pin);
     }
     mapPins.appendChild(fragment);
   };
