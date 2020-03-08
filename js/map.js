@@ -16,6 +16,14 @@
     isActive = true;
   };
 
+  var deactivateMap = function () {
+    window.card.map.classList.add('map--faded');
+    window.form.ad.classList.add('ad-form--disabled');
+    window.form.deactivateFields();
+    isActive = false;
+  };
+
+
   var onLeftButtonClick = (function (evt) {
     if (evt.button === 0) {
       activateMap();
@@ -38,5 +46,6 @@
 
   window.map = {
     activate: activateMap,
+    deactivate: deactivateMap
   };
 })();

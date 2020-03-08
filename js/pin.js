@@ -6,6 +6,8 @@
     HEIGHT: 44
   };
 
+  var ENTER = 'Enter';
+
 
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPins = document.querySelector('.map__pins');
@@ -39,6 +41,11 @@
       var pinData = window.data.offers[i];
       var pin = createPin(pinData);
       pin.addEventListener('click', onPinClick(pinData));
+      pin.addEventListener('keydown', function (evt) {
+        if (evt.key === ENTER) {
+          onPinClick(pinData);
+        }
+      });
       fragment.appendChild(pin);
     }
     mapPins.appendChild(fragment);
