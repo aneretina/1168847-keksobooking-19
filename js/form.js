@@ -7,10 +7,10 @@
   };
 
   var AccomodationPrices = {
-    'bungalo': 0,
-    'flat': 1000,
-    'house': 5000,
-    'palace': 10000,
+    BUNGALO: 0,
+    FLAT: 1000,
+    HOUSE: 5000,
+    PALACE: 10000,
   };
 
   var GuestCounter = {
@@ -21,8 +21,11 @@
     ZERO: 0
   };
 
+  var MAX_PRICE = 1000000;
+
   var adForm = document.querySelector('.ad-form');
   var fields = adForm.querySelectorAll('fieldset');
+  var adFormInputs = adForm.querySelectorAll('.ad-form input');
 
   var roomsNumber = adForm.querySelector('#room_number');
   var guestsNumber = adForm.querySelector('#capacity');
@@ -90,9 +93,9 @@
 
   var checkPriceValidity = function () {
     var priceInputValue = parseInt(priceInput.value, 10);
-    if (priceInputValue) {
+    if (priceInputValue === '') {
       priceInput.setCustomValidity('Обязательное поле для заполнения');
-    } else if (priceInputValue > 1000000) {
+    } else if (priceInputValue > MAX_PRICE) {
       priceInput.setCustomValidity('Максимальная цена за ночь: 1 000 000 руб.');
     } else {
       priceInput.setCustomValidity('');
@@ -101,11 +104,12 @@
 
   var priceInputHandler = function () {
     checkPriceValidity();
+    checkTypePriceValidity();
   };
 
   var checkTypePriceValidity = function () {
-    priceInput.min = AccomodationPrices[typeInput.value];
-    priceInput.placeholder = AccomodationPrices[typeInput.value];
+    priceInput.min = AccomodationPrices[typeInput.value.toUpperCase()];
+    priceInput.placeholder = AccomodationPrices[typeInput.value.toUpperCase()];
   };
 
   var typeInputHandler = function () {
@@ -128,6 +132,16 @@
     checkTimeOutValidity();
   };
 
+  var checkInputs = function () {
+    adFormInputs.forEach(function (input) {
+      if (input.checkValidity() === false) {
+        input.style.border = '3px solid red';
+      } else {
+        input.style.border = '';
+      }
+    });
+  };
+
   timeInInput.addEventListener('input', timeInInputHandler);
   timeOutInput.addEventListener('input', timeOutInputHandler);
   typeInput.addEventListener('input', typeInputHandler);
@@ -135,6 +149,17 @@
   titleInput.addEventListener('input', titleInputHandler);
   guestsNumber.addEventListener('input', roomsInputHandler);
   roomsNumber.addEventListener('input', roomsInputHandler);
+
+  adForm.addEventListener('change', function () {
+    checkRoomValidity();
+    checkPriceValidity();
+    checkTitleValidity();
+    checkTimeInValidity();
+    checkTimeOutValidity();
+    checkTypePriceValidity();
+    checkInputs();
+  });
+
 
   window.form = {
     ad: adForm,

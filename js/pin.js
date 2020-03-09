@@ -6,6 +6,8 @@
     HEIGHT: 44
   };
 
+  var PIN_NUMBERS = 5;
+
   var ENTER = 'Enter';
 
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -36,7 +38,7 @@
   };
 
   var createPins = function () {
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < PIN_NUMBERS; i++) {
       var pinData = window.data.offers[i];
       var pin = createPin(pinData);
       pin.addEventListener('click', onPinClick(pinData));
@@ -54,8 +56,8 @@
     create: createPins,
 
     Size: {
-      WIDTH: 40,
-      HEIGHT: 44,
+      WIDTH: PinSize.WIDTH,
+      HEIGHT: PinSize.HEIGHT,
     },
 
     mapPins: mapPins
