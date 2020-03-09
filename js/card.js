@@ -2,7 +2,6 @@
 
 (function () {
   var ESC = 'Escape';
-  var ENTER = 'Enter';
 
   var AccomodationTypes = {
     FLAT: 'Квартира',
@@ -84,7 +83,6 @@
     var closeButton = card.querySelector('.popup__close');
     closeButton.addEventListener('click', closeCard);
     document.addEventListener('keydown', onPupopEscPress);
-    document.addEventListener('keydown', onPupopEnterPress);
     return card;
   };
 
@@ -95,12 +93,6 @@
     }
   };
 
-  var onPupopEnterPress = function (evt) {
-    evt.preventDefault();
-    if (evt.key === ENTER) {
-      closeCard();
-    }
-  };
 
   window.card = {
     show: showCard,
