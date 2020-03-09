@@ -2,8 +2,8 @@
 
 (function () {
   var isActive = false;
-  var mainPin = document.querySelector('.map__pin--main');
   var addressInput = document.querySelector('.ad-form').querySelector('#address');
+  var mainPin = document.querySelector('.map__pin--main');
 
   var activateMap = function () {
     if (isActive) {
@@ -44,7 +44,10 @@
     addressInput.value = pinCoordinatesLeft + ', ' + pinCoordinatesTop;
   };
 
+  console.log(mainPin)
+
   window.map = {
+    mainPin: mainPin,
     activate: activateMap,
     deactivate: deactivateMap
   };

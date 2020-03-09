@@ -53,6 +53,14 @@
 
   window.data = {
     offers: createOffers(window.const.OFFERS_COUNT),
-    PHOTOs: PHOTOS
+    PHOTOS: PHOTOS,
+
+    LocationLimits: {
+      MIN_X: 1,
+      MAX_X: 1200,
+      MIN_Y: 130,
+      MAX_Y: 630,
+    }
+
   };
 })();

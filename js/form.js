@@ -7,22 +7,10 @@
   };
 
   var AccomodationPrices = {
-    BUNGALO: {
-      price: 0,
-      placeholder: 0
-    },
-    FLAT: {
-      price: 1000,
-      placeholder: 1000
-    },
-    HOUSE: {
-      price: 5000,
-      placeholder: 5000
-    },
-    PALACE: {
-      price: 10000,
-      placeholder: 10000
-    }
+    'bungalo': 0,
+    'flat': 1000,
+    'house': 5000,
+    'palace': 10000,
   };
 
   var GuestCounter = {
@@ -116,8 +104,8 @@
   };
 
   var checkTypePriceValidity = function () {
-    priceInput.min = AccomodationPrices[typeInput.value.price];
-    priceInput.placeholder = AccomodationPrices[typeInput.value.placeholder];
+    priceInput.min = AccomodationPrices[typeInput.value];
+    priceInput.placeholder = AccomodationPrices[typeInput.value];
   };
 
   var typeInputHandler = function () {

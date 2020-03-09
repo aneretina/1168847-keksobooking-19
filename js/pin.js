@@ -8,7 +8,6 @@
 
   var ENTER = 'Enter';
 
-
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPins = document.querySelector('.map__pins');
   var fragment = document.createDocumentFragment();
@@ -57,8 +56,9 @@
     Size: {
       WIDTH: 40,
       HEIGHT: 44,
-      mapPins: mapPins
-    }
+    },
+
+    mapPins: mapPins
   };
 
 })();
