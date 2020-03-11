@@ -2,6 +2,25 @@
 'use strict';
 
 (function () {
+  var PIN_NUMBERS = 5;
+
+  var ENTER = 'Enter';
+  var fragment = document.createDocumentFragment();
+
+  var successDataHandler = function (offer) {
+    for (var i = 0; i < PIN_NUMBERS; i++) {
+      var pin = window.pin.create(offer[i]);
+      pin.addEventListener('click', window.pin.onClick(offer[i]));
+      pin.addEventListener('keydown', function (evt) {
+        if (evt.key === ENTER) {
+          window.pin.onClick(offer[i]);
+        }
+      });
+      fragment.appendChild(pin);
+    }
+    window.pin.mapPins.appendChild(fragment);
+  };
+
   var errorDataHandler = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: crimson; padding-top: 5px; padding-bottom: 5px';
@@ -15,9 +34,9 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
-
   window.data = {
-    errorHandler: errorDataHandler,
+    successDataHandler: successDataHandler,
+    errorDataHandler: errorDataHandler,
 
     LocationLimits: {
       MIN_X: 1,

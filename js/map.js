@@ -12,7 +12,7 @@
     window.card.map.classList.remove('map--faded');
     window.form.ad.classList.remove('ad-form--disabled');
     window.form.activateFields();
-    window.load(window.pin.create, window.pin.errorDataHandler);
+    window.load(window.data.successDataHandler, window.data.errorDataHandler);
     isActive = true;
   };
 

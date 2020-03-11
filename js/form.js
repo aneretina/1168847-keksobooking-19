@@ -51,7 +51,7 @@
   };
 
   adForm.addEventListener('submit', function (evt) {
-    window.upload(new FormData(adForm));
+    window.upload(new FormData(adForm), window.data.successDataHandler(), window.data.errorDataHandler());
     evt.preventDefault();
   });
 
