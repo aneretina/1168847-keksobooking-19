@@ -44,11 +44,10 @@
     addressInput.value = pinCoordinatesLeft + ', ' + pinCoordinatesTop;
   };
 
-  console.log(mainPin)
-
   window.map = {
     mainPin: mainPin,
     activate: activateMap,
-    deactivate: deactivateMap
+    deactivate: deactivateMap,
+    setPinCoordinates: setPinCoordinates
   };
 })();
