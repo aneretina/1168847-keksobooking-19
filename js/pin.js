@@ -2,8 +2,8 @@
 
 (function () {
   var PinSize = {
-    WIDTH: 40,
-    HEIGHT: 44
+    WIDTH: 50,
+    HEIGHT: 70
   };
 
   var PIN_NUMBERS = 5;
@@ -37,14 +37,13 @@
     };
   };
 
-  var createPins = function () {
+  var createPins = function (offer) {
     for (var i = 0; i < PIN_NUMBERS; i++) {
-      var pinData = window.data.offers[i];
-      var pin = createPin(pinData);
-      pin.addEventListener('click', onPinClick(pinData));
+      var pin = createPin(offer[i]);
+      pin.addEventListener('click', onPinClick(offer[i]));
       pin.addEventListener('keydown', function (evt) {
         if (evt.key === ENTER) {
-          onPinClick(pinData);
+          onPinClick(offer[i]);
         }
       });
       fragment.appendChild(pin);
@@ -52,8 +51,23 @@
     mapPins.appendChild(fragment);
   };
 
+  var errorDataHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: crimson; padding-top: 5px; padding-bottom: 5px';
+    node.style.position = 'absolute';
+    node.style.color = '#ffffff';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.top = '20px';
+    node.style.fontSize = '26px';
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+
   window.pin = {
     create: createPins,
+    errorDataHandler: errorDataHandler,
 
     Size: {
       WIDTH: PinSize.WIDTH,
