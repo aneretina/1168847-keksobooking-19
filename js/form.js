@@ -26,6 +26,7 @@
   var adForm = document.querySelector('.ad-form');
   var fields = adForm.querySelectorAll('fieldset');
   var adFormInputs = adForm.querySelectorAll('.ad-form input');
+  var formResetButton = adForm.querySelector('.ad-form__reset');
 
   var roomsNumber = adForm.querySelector('#room_number');
   var guestsNumber = adForm.querySelector('#capacity');
@@ -50,10 +51,15 @@
     }
   };
 
-  adForm.addEventListener('submit', function (evt) {
-    window.upload(new FormData(adForm), window.data.successDataHandler(), window.data.errorDataHandler());
+  formResetButton.addEventListener('click', function (evt) {
     evt.preventDefault();
+    window.map.deactivate();
   });
+
+  var formSubmit = function (evt) {
+    window.backend.upload(new FormData(adForm), window.message.showMessageofSuccess(), window.message.showMessageOfError());
+    evt.preventDefault();
+  };
 
   var checkRoomValidity = function () {
     var roomsValue = parseInt(roomsNumber.value, 10);
@@ -164,6 +170,7 @@
 
   window.form = {
     ad: adForm,
+    submit: formSubmit,
     activateFields: activateFields,
     checkRoomValidity: checkRoomValidity,
     checkTitleValidity: checkTitleValidity,
