@@ -6,6 +6,12 @@
     HEIGHT: 70
   };
 
+  var MainPinCoords = {
+    X: 595,
+    Y: 445
+  };
+
+
   var PIN_NUMBERS = 5;
   var fragment = document.createDocumentFragment();
 
@@ -35,6 +41,12 @@
     };
   };
 
+  var setMainPinStartCoords = function () {
+    window.map.mainPin.style.left = MainPinCoords.X - PinSize.WIDTH / 2 + 'px';
+    window.map.mainPin.style.top = MainPinCoords.Y - PinSize.HEIGHT + 'px';
+    return setMainPinStartCoords;
+  };
+
   var successLoadPinData = function (offer) {
     for (var i = 0; i < PIN_NUMBERS; i++) {
       var pin = createPin(offer[i]);
@@ -53,9 +65,20 @@
     window.backend.load(successLoadPinData, window.utils.errorDataHandler);
   };
 
+  var removePins = function () {
+    var pins = mapPins.querySelectorAll('.map__pin');
+    for (var i = 0; i < pins.length; i++) {
+      if (!pins[i].classList.contains('map__pin--main')) {
+        mapPins.removeChild(pins[i]);
+      }
+    }
+  };
+
   window.pin = {
     show: showPins,
     onClick: onPinClick,
+    remove: removePins,
+    setMainPinStartCoords: setMainPinStartCoords,
 
     Size: {
       WIDTH: PinSize.WIDTH,

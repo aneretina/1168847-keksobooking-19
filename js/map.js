@@ -17,7 +17,7 @@
     window.pin.show();
     window.form.ad.addEventListener('change', window.form.checkFieldsValidty);
     window.form.ad.addEventListener('submit', window.form.submit);
-    formResetButton.addEventListener('click', window.form.formResetHandldr);
+    formResetButton.addEventListener('click', deactivateMap);
     isActive = true;
   };
 
@@ -27,10 +27,11 @@
     window.card.map.classList.add('map--faded');
     window.form.ad.classList.add('ad-form--disabled');
     window.form.deactivateFields();
+    window.pin.remove();
     window.form.ad.removeEventListener('submit', window.form.submit);
     window.form.ad.removeEventListener('change', window.form.checkFieldsValidty);
-    formResetButton.removeEventListener('click', window.form.formResetHandldr);
-    setPinCoordinates();
+    formResetButton.removeEventListener('click', deactivateMap);
+    window.pin.setMainPinStartCoords();
   };
 
   var onLeftButtonClick = (function (evt) {

@@ -8,6 +8,13 @@
     OK: 200
   };
 
+  var TextError = {
+    ERROR_CONNECTION: 'Произошла ошибка соединения',
+    ERROR_TIMEOUT: 'Запрос не успел выполниться за ',
+    ERROR_RESPONSE: 'Статус ответа: '
+  };
+
+
   var upload = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -16,15 +23,15 @@
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError(TextError.ERROR_RESPONSE + xhr.status + ' ' + xhr.statusText);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      onError(TextError.ERROR_CONNECTION);
     });
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      onError(TextError.ERROR_TIMEOUT + xhr.timeout + 'мс');
     });
 
     xhr.timeout = TIME_OUT;
@@ -40,15 +47,15 @@
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError(TextError.ERROR_RESPONSE + xhr.status + ' ' + xhr.statusText);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      onError(TextError.ERROR_CONNECTION);
     });
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      onError(TextError.ERROR_TIMEOUT + xhr.timeout + 'мс');
     });
 
     xhr.timeout = TIME_OUT;

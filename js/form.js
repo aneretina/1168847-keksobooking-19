@@ -48,11 +48,6 @@
     }
   };
 
-  var formResetHandler = function (evt) {
-    evt.preventDefault();
-    window.map.deactivate();
-  };
-
   var formSubmit = function (evt) {
     if (adForm.checkValidity()) {
       window.backend.upload(new FormData(adForm), window.message.showMessageOfSuccess, window.message.showMessageOfError);
@@ -169,7 +164,6 @@
     submit: formSubmit,
     activateFields: activateFields,
     checkFieldsValidty: checkFieldsValidty,
-    deactivateFields: deactivateFields,
-    formResetHandler: formResetHandler
+    deactivateFields: deactivateFields
   };
 })();
