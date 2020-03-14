@@ -7,7 +7,7 @@
   var successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
   var errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
   var main = document.querySelector('main');
-  var errorButton = document.querySelector('.error__button');
+  var errorButton = errorMessageTemplate.querySelector('.error__button');
 
   var showMessageOfSuccess = function () {
     successMessage = successMessageTemplate.cloneNode(true);
@@ -36,8 +36,8 @@
       successMessage.remove();
     } else {
       errorMessage.remove();
-      errorButton.removeEventListener('click', closeMessage);
     }
+    errorButton.removeEventListener('click', closeMessage);
     document.removeEventListener('keydown', onSuccessEscPress);
     document.removeEventListener('click', closeMessage);
   };

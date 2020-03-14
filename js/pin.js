@@ -62,7 +62,7 @@
       HEIGHT: PinSize.HEIGHT,
     },
 
-    mapPins: mapPins
+    mapPins: mapPins,
   };
 
 })();

@@ -4,6 +4,7 @@
   var isActive = false;
   var addressInput = document.querySelector('.ad-form').querySelector('#address');
   var mainPin = document.querySelector('.map__pin--main');
+  var formResetButton = window.form.ad.querySelector('.ad-form__reset');
 
 
   var activateMap = function () {
@@ -14,21 +15,23 @@
     window.form.ad.classList.remove('ad-form--disabled');
     window.form.activateFields();
     window.pin.show();
+    window.form.ad.addEventListener('change', window.form.checkFieldsValidty);
     window.form.ad.addEventListener('submit', window.form.submit);
+    formResetButton.addEventListener('click', window.form.formResetHandldr);
     isActive = true;
   };
 
   var deactivateMap = function () {
+    isActive = false;
     window.form.ad.reset();
     window.card.map.classList.add('map--faded');
     window.form.ad.classList.add('ad-form--disabled');
     window.form.deactivateFields();
-    window.pin.show.remove();
     window.form.ad.removeEventListener('submit', window.form.submit);
+    window.form.ad.removeEventListener('change', window.form.checkFieldsValidty);
+    formResetButton.removeEventListener('click', window.form.formResetHandldr);
     setPinCoordinates();
-    isActive = false;
   };
-
 
   var onLeftButtonClick = (function (evt) {
     if (evt.button === 0) {
