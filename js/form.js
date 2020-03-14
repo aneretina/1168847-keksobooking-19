@@ -42,17 +42,18 @@
     }
   };
 
-  deactivateFields();
-
   var activateFields = function () {
     for (var i = 0; i < fields.length; i++) {
       fields[i].removeAttribute('disabled');
     }
   };
 
-  adForm.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-  });
+  var formSubmit = function (evt) {
+    if (adForm.checkValidity()) {
+      window.backend.upload(new FormData(adForm), window.message.showMessageOfSuccess, window.message.showMessageOfError);
+      evt.preventDefault();
+    }
+  };
 
   var checkRoomValidity = function () {
     var roomsValue = parseInt(roomsNumber.value, 10);
@@ -102,11 +103,6 @@
     }
   };
 
-  var priceInputHandler = function () {
-    checkPriceValidity();
-    checkTypePriceValidity();
-  };
-
   var checkTypePriceValidity = function () {
     priceInput.min = AccomodationPrices[typeInput.value.toUpperCase()];
     priceInput.placeholder = AccomodationPrices[typeInput.value.toUpperCase()];
@@ -114,6 +110,7 @@
 
   var typeInputHandler = function () {
     checkTypePriceValidity();
+    checkPriceValidity();
   };
 
   var checkTimeInValidity = function () {
@@ -145,12 +142,12 @@
   timeInInput.addEventListener('input', timeInInputHandler);
   timeOutInput.addEventListener('input', timeOutInputHandler);
   typeInput.addEventListener('input', typeInputHandler);
-  priceInput.addEventListener('input', priceInputHandler);
+  priceInput.addEventListener('input', typeInputHandler);
   titleInput.addEventListener('input', titleInputHandler);
   guestsNumber.addEventListener('input', roomsInputHandler);
   roomsNumber.addEventListener('input', roomsInputHandler);
 
-  adForm.addEventListener('change', function () {
+  var checkFieldsValidty = function () {
     checkRoomValidity();
     checkPriceValidity();
     checkTitleValidity();
@@ -158,16 +155,15 @@
     checkTimeOutValidity();
     checkTypePriceValidity();
     checkInputs();
-  });
+  };
 
+  deactivateFields();
 
   window.form = {
     ad: adForm,
+    submit: formSubmit,
     activateFields: activateFields,
-    checkRoomValidity: checkRoomValidity,
-    checkTitleValidity: checkTitleValidity,
-    checkPriceValidity: checkPriceValidity,
-    checkTimeInValidity: checkTimeInValidity,
-    checkTimeOutValidity: checkTimeOutValidity,
+    checkFieldsValidty: checkFieldsValidty,
+    deactivateFields: deactivateFields
   };
 })();

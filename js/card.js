@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var ESC = 'Escape';
-
   var AccomodationTypes = {
     FLAT: 'Квартира',
     HOUSE: 'Дом',
@@ -88,7 +86,7 @@
 
   var onPupopEscPress = function (evt) {
     evt.preventDefault();
-    if (evt.key === ESC) {
+    if (evt.key === window.utils.ESC) {
       closeCard();
     }
   };

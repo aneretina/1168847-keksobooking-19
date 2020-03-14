@@ -2,17 +2,21 @@
 
 (function () {
   var PinSize = {
-    WIDTH: 40,
-    HEIGHT: 44
+    WIDTH: 50,
+    HEIGHT: 70
   };
 
-  var PIN_NUMBERS = 5;
+  var MainPinCoords = {
+    X: 595,
+    Y: 445
+  };
 
-  var ENTER = 'Enter';
+
+  var PIN_NUMBERS = 5;
+  var fragment = document.createDocumentFragment();
 
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPins = document.querySelector('.map__pins');
-  var fragment = document.createDocumentFragment();
   var mapFilters = document.querySelector('.map__filters-container');
 
   var createPin = function (pin) {
@@ -37,14 +41,19 @@
     };
   };
 
-  var createPins = function () {
+  var setMainPinStartCoords = function () {
+    window.map.mainPin.style.left = MainPinCoords.X - PinSize.WIDTH / 2 + 'px';
+    window.map.mainPin.style.top = MainPinCoords.Y - PinSize.HEIGHT + 'px';
+    return setMainPinStartCoords;
+  };
+
+  var successLoadPinData = function (offer) {
     for (var i = 0; i < PIN_NUMBERS; i++) {
-      var pinData = window.data.offers[i];
-      var pin = createPin(pinData);
-      pin.addEventListener('click', onPinClick(pinData));
+      var pin = createPin(offer[i]);
+      pin.addEventListener('click', onPinClick(offer[i]));
       pin.addEventListener('keydown', function (evt) {
-        if (evt.key === ENTER) {
-          onPinClick(pinData);
+        if (evt.key === window.utils.ENTER) {
+          onPinClick(offer[i]);
         }
       });
       fragment.appendChild(pin);
@@ -52,15 +61,31 @@
     mapPins.appendChild(fragment);
   };
 
+  var showPins = function () {
+    window.backend.load(successLoadPinData, window.utils.errorDataHandler);
+  };
+
+  var removePins = function () {
+    var pins = mapPins.querySelectorAll('.map__pin');
+    for (var i = 0; i < pins.length; i++) {
+      if (!pins[i].classList.contains('map__pin--main')) {
+        mapPins.removeChild(pins[i]);
+      }
+    }
+  };
+
   window.pin = {
-    create: createPins,
+    show: showPins,
+    onClick: onPinClick,
+    remove: removePins,
+    setMainPinStartCoords: setMainPinStartCoords,
 
     Size: {
       WIDTH: PinSize.WIDTH,
       HEIGHT: PinSize.HEIGHT,
     },
 
-    mapPins: mapPins
+    mapPins: mapPins,
   };
 
 })();

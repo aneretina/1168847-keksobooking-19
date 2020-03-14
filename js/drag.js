@@ -2,10 +2,10 @@
 
 (function () {
   var PageLimits = {
-    MIN_X: window.data.LocationLimits.MIN_X - window.pin.Size.WIDTH / 2,
-    MAX_X: window.data.LocationLimits.MAX_X - window.pin.Size.WIDTH / 2,
-    MIN_Y: window.data.LocationLimits.MIN_Y - window.pin.Size.HEIGHT,
-    MAX_Y: window.data.LocationLimits.MAX_Y - window.pin.Size.HEIGHT
+    MIN_X: 1 - window.pin.Size.WIDTH / 2,
+    MAX_X: 1200 - window.pin.Size.WIDTH / 2,
+    MIN_Y: 130 - window.pin.Size.HEIGHT,
+    MAX_Y: 630 - window.pin.Size.HEIGHT
   };
 
   var startCoords;
