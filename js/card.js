@@ -59,7 +59,7 @@
     setCardValue(clonedCard, '.popup__title', pin.offer.title);
     setCardValue(clonedCard, '.popup__text--address', pin.offer.address);
     setCardValue(clonedCard, '.popup__text--price', pin.offer.price ? pin.offer.price + '₽/ночь' : '');
-    setCardValue(clonedCard, '.popup__type', AccomodationTypes[pin.offer.type]);
+    setCardValue(clonedCard, '.popup__type', AccomodationTypes[pin.offer.type.toUpperCase()]);
     setCardValue(clonedCard, '.popup__text--capacity', pin.offer.rooms && pin.offer.guests ? pin.offer.rooms + ' комнаты для ' + pin.offer.guests + ' гостей' : '');
     setCardValue(clonedCard, '.popup__text--time', pin.offer.checkin && pin.offer.checkout ? 'заезд после ' + pin.offer.checkin + ', выезд до ' + pin.offer.checkout : '');
     setCardValue(clonedCard, '.popup__description', pin.offer.description);
@@ -94,6 +94,7 @@
 
   window.card = {
     show: showCard,
-    map: map
+    map: map,
+    close: closeCard
   };
 })();

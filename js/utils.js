@@ -18,8 +18,18 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
+  var loadHandler = function (offers) {
+    window.pin.render(offers);
+    window.data = offers;
+  };
+
+  var loadData = function () {
+    window.backend.load(loadHandler, errorDataHandler);
+  };
 
   window.utils = {
+    loadData: loadData,
+    loadHandler: loadHandler,
     errorDataHandler: errorDataHandler,
     ENTER: ENTER,
     ESC: ESC
