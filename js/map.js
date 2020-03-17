@@ -14,7 +14,7 @@
     window.card.map.classList.remove('map--faded');
     window.form.ad.classList.remove('ad-form--disabled');
     window.form.activateFields();
-    window.pin.show();
+    window.pin.loadData();
     window.form.ad.addEventListener('change', window.form.checkFieldsValidty);
     window.form.ad.addEventListener('submit', window.form.submit);
     formResetButton.addEventListener('click', deactivateMap);

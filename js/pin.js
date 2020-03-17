@@ -24,7 +24,6 @@
     var pinIcon = clonedPin.querySelector('img');
     clonedPin.style.left = pin.location.x - PinSize.WIDTH / 2 + 'px';
     clonedPin.style.top = pin.location.y - PinSize.HEIGHT + 'px';
-
     pinIcon.src = pin.author.avatar;
     pinIcon.alt = pin.offer.title;
     return clonedPin;
@@ -47,13 +46,17 @@
     return setMainPinStartCoords;
   };
 
-  var successLoadPinData = function (offer) {
-    for (var i = 0; i < PIN_NUMBERS; i++) {
-      var pin = createPin(offer[i]);
-      pin.addEventListener('click', onPinClick(offer[i]));
+  var renderPins = function (offers) {
+    for (var i = 0; i < offers.length; i++) {
+
+      if (i === PIN_NUMBERS) {
+        break;
+      }
+      var pin = createPin(offers[i]);
+      pin.addEventListener('click', onPinClick(offers[i]));
       pin.addEventListener('keydown', function (evt) {
         if (evt.key === window.utils.ENTER) {
-          onPinClick(offer[i]);
+          onPinClick(offers[i]);
         }
       });
       fragment.appendChild(pin);
@@ -61,9 +64,15 @@
     mapPins.appendChild(fragment);
   };
 
-  var showPins = function () {
-    window.backend.load(successLoadPinData, window.utils.errorDataHandler);
+  var loadHandler = function (offers) {
+    renderPins(offers);
+    window.data = offers;
   };
+
+  var loadData = function () {
+    window.backend.load(loadHandler, window.utils.errorDataHandler);
+  };
+
 
   var removePins = function () {
     var pins = mapPins.querySelectorAll('.map__pin');
@@ -75,10 +84,12 @@
   };
 
   window.pin = {
-    show: showPins,
+    loadData: loadData,
     onClick: onPinClick,
     remove: removePins,
     setMainPinStartCoords: setMainPinStartCoords,
+    render: renderPins,
+
 
     Size: {
       WIDTH: PinSize.WIDTH,
