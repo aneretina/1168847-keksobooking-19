@@ -39,6 +39,7 @@
     xhr.send(data);
   };
 
+
   var load = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
