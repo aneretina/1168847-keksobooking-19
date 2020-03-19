@@ -11,7 +11,6 @@
     Y: 445
   };
 
-
   var PIN_NUMBERS = 5;
   var fragment = document.createDocumentFragment();
 
@@ -64,16 +63,6 @@
     mapPins.appendChild(fragment);
   };
 
-  var loadHandler = function (offers) {
-    renderPins(offers);
-    window.data = offers;
-  };
-
-  var loadData = function () {
-    window.backend.load(loadHandler, window.utils.errorDataHandler);
-  };
-
-
   var removePins = function () {
     var pins = mapPins.querySelectorAll('.map__pin');
     for (var i = 0; i < pins.length; i++) {
@@ -84,7 +73,6 @@
   };
 
   window.pin = {
-    loadData: loadData,
     onClick: onPinClick,
     remove: removePins,
     setMainPinStartCoords: setMainPinStartCoords,
