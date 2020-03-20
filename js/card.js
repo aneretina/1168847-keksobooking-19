@@ -16,6 +16,7 @@
 
   var map = document.querySelector('.map');
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+  var mapFilters = document.querySelector('.map__filters-container');
 
   var setCardValue = function (node, className, value) {
     var cardItem = node.querySelector(className);
@@ -74,6 +75,7 @@
     if (newCard) {
       map.removeChild(newCard);
     }
+    document.removeEventListener('keydown', onPupopEscPress);
   };
 
   var showCard = function (pin) {
@@ -84,6 +86,17 @@
     return card;
   };
 
+  var activateCard = function (pin) {
+    return function () {
+      var oldCard = map.querySelector('.map__card');
+      if (oldCard) {
+        map.removeChild(oldCard);
+      }
+      var card = showCard(pin);
+      map.insertBefore(card, mapFilters);
+    };
+  };
+
   var onPupopEscPress = function (evt) {
     evt.preventDefault();
     if (evt.key === window.utils.ESC) {
@@ -91,8 +104,8 @@
     }
   };
 
-
   window.card = {
+    activate: activateCard,
     show: showCard,
     map: map,
     close: closeCard

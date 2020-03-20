@@ -15,7 +15,7 @@
   };
 
 
-  var upload = function (data, onSuccess, onError) {
+  var setup = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -35,32 +35,20 @@
     });
 
     xhr.timeout = TIME_OUT;
+
+    return xhr;
+  };
+
+
+  var upload = function (data, onSuccess, onError) {
+    var xhr = setup(onSuccess, onError);
     xhr.open('POST', URL_UPLOAD);
     xhr.send(data);
   };
 
 
   var load = function (onSuccess, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-
-    xhr.addEventListener('load', function () {
-      if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
-      } else {
-        onError(TextError.ERROR_RESPONSE + xhr.status + ' ' + xhr.statusText);
-      }
-    });
-
-    xhr.addEventListener('error', function () {
-      onError(TextError.ERROR_CONNECTION);
-    });
-    xhr.addEventListener('timeout', function () {
-      onError(TextError.ERROR_TIMEOUT + xhr.timeout + 'мс');
-    });
-
-    xhr.timeout = TIME_OUT;
-
+    var xhr = setup(onSuccess, onError);
     xhr.open('GET', URL_LOAD);
     xhr.send();
   };

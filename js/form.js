@@ -50,7 +50,7 @@
 
   var formSubmit = function (evt) {
     if (adForm.checkValidity()) {
-      window.backend.upload(new FormData(adForm), window.message.showMessageOfSuccess, window.message.showMessageOfError);
+      window.backend.upload(new FormData(adForm), window.message.showSuccess, window.message.showError);
       evt.preventDefault();
     }
   };

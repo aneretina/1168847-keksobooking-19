@@ -43,7 +43,7 @@
   };
 
   window.message = {
-    showMessageOfError: showMessageOfError,
-    showMessageOfSuccess: showMessageOfSuccess
+    showError: showMessageOfError,
+    showSuccess: showMessageOfSuccess
   };
 })();
