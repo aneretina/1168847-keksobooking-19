@@ -27,6 +27,7 @@
   var filterOptFeature = mapFilters.querySelector('#housing-features');
   var filterUnits = mapFilters.querySelectorAll('select, input');
 
+
   var filterOffers = function (offers) {
     var pins = [];
 
@@ -59,13 +60,6 @@
     return pins;
   };
 
-  var deactivateFilterOpts = function () {
-    for (var i = 0; i < filterUnits.length; i++) {
-      filterUnits[i].setAttribute('disabled', 'true');
-    }
-  };
-
-
   mapFilters.addEventListener('change', function () {
     window.pin.remove();
     window.card.close();
@@ -78,8 +72,24 @@
     }, DEBOUNCE_INTERVAL);
   });
 
+  var deactivateFilters = function () {
+    filterUnits.forEach(function (item) {
+      item.setAttribute('disabled', 'disabled');
+    });
+  };
+
+
+  var activateFilters = function () {
+    filterUnits.forEach(function (item) {
+      item.removeAttribute('disabled', 'disabled');
+    });
+  };
+
+  deactivateFilters();
+
   window.filter = {
-    deactivate: deactivateFilterOpts,
+    activate: activateFilters,
+    deactivate: deactivateFilters,
     map: mapFilters,
     data: filterOffers,
   };
