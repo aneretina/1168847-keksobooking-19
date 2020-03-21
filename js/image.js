@@ -8,49 +8,34 @@
   var photoChooser = document.querySelector('.ad-form__upload input[type=file]');
   var photoPreview = document.querySelector('.ad-form__photo img');
 
-
-  avatarChooser.addEventListener('change', function () {
-    var file = avatarChooser.files[0];
-
+  var uploadImage = function (input, img) {
+    var file = input.files[0];
     var fileName = file.name.toLowerCase();
 
     var matches = FILE_TYPES.some(function (it) {
       return fileName.endsWith(it);
     });
-
     if (matches) {
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
-        avatarPreview.src = reader.result;
+        img.src = reader.result;
       });
 
       reader.readAsDataURL(file);
     }
+  };
+
+  avatarChooser.addEventListener('change', function () {
+    uploadImage(avatarChooser, avatarPreview);
   });
 
   photoChooser.addEventListener('change', function () {
-    var photoFile = photoChooser.files[0];
-
-    var photoFileName = photoFile.name.toLowerCase();
-
-    var photoMatches = FILE_TYPES.some(function (it) {
-      return photoFileName.endsWith(it);
-    });
-
-    if (photoMatches) {
-      var photoReader = new FileReader();
-
-      photoReader.addEventListener('load', function () {
-        var photoImg = document.createElement('img');
-        photoImg.src = photoReader.result;
-        photoImg.width = '70';
-        photoImg.height = '70';
-        photoPreview.appendChild(photoImg);
-      });
-
-      photoReader.readAsDataURL(photoFile);
-    }
+    var photoImg = document.createElement('img');
+    photoImg.classList.add('ad-form__photo-img');
+    uploadImage(photoChooser, photoPreview);
+    photoPreview.appendChild(photoImg);
   });
+
 
 })();
