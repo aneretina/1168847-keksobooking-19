@@ -50,7 +50,7 @@
 
   var formSubmit = function (evt) {
     if (adForm.checkValidity()) {
-      window.backend.upload(new FormData(adForm), window.message.showMessageOfSuccess, window.message.showMessageOfError);
+      window.backend.upload(new FormData(adForm), window.message.showSuccess, window.message.showError);
       evt.preventDefault();
     }
   };
@@ -157,6 +157,10 @@
     checkInputs();
   };
 
+  var formResetHandler = function () {
+    window.map.deactivate();
+  };
+
   deactivateFields();
 
   window.form = {
@@ -164,6 +168,7 @@
     submit: formSubmit,
     activateFields: activateFields,
     checkFieldsValidty: checkFieldsValidty,
-    deactivateFields: deactivateFields
+    deactivateFields: deactivateFields,
+    resetHandler: formResetHandler
   };
 })();

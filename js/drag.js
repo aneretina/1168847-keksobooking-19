@@ -10,7 +10,7 @@
 
   var startCoords;
 
-  var onMouseMove = function (moveEvt) {
+  var mouseMoveHandler = function (moveEvt) {
     moveEvt.preventDefault();
 
     var shift = {
@@ -37,14 +37,14 @@
     window.map.setPinCoordinates();
   };
 
-  var onMouseUp = function (upEvt) {
+  var mouseUpHandler = function (upEvt) {
     upEvt.preventDefault();
 
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
+    document.removeEventListener('mousemove', mouseMoveHandler);
+    document.removeEventListener('mouseup', mouseUpHandler);
   };
 
-  var onMouseDown = function (evt) {
+  var mouseDownHandler = function (evt) {
     evt.preventDefault();
 
     startCoords = {
@@ -52,10 +52,10 @@
       y: evt.clientY
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
   };
 
-  window.map.mainPin.addEventListener('mousedown', onMouseDown);
+  window.map.mainPin.addEventListener('mousedown', mouseDownHandler);
 
 })();

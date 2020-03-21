@@ -19,12 +19,14 @@
   var DEBOUNCE_INTERVAL = 500;
   var lastTimeout;
 
-  var filters = document.querySelector('.map__filters');
+  var mapFilters = document.querySelector('.map__filters');
   var filterOptType = document.querySelector('#housing-type');
   var filterOptPrice = document.querySelector('#housing-price');
   var filterOptRoom = document.querySelector('#housing-rooms');
   var filterOptGuest = document.querySelector('#housing-guests');
-  var filterOptFeature = filters.querySelector('#housing-features');
+  var filterOptFeature = mapFilters.querySelector('#housing-features');
+  var filterUnits = mapFilters.querySelectorAll('select, input');
+
 
   var filterOffers = function (offers) {
     var pins = [];
@@ -32,11 +34,11 @@
     var checkFeatureInputs = filterOptFeature.querySelectorAll('input[type = "checkbox"]:checked');
 
     for (var i = 0; i < offers.length; i++) {
+      var isFeatured = true;
+
       if (pins.length === window.pin.count) {
         break;
       }
-
-      var isFeatured = true;
 
       if ((filterOptType.value === 'any' || offers[i].offer.type === filterOptType.value) &&
       (filterOptPrice.value === 'any' || offers[i].offer.price >= RoomPrice[filterOptPrice.value.toUpperCase()].min &&
@@ -44,11 +46,12 @@
       (filterOptRoom.value === 'any' || offers[i].offer.rooms === Number(filterOptRoom.value)) &&
       (filterOptGuest.value === 'any' || offers[i].offer.guests === Number(filterOptGuest.value))) {
 
-        checkFeatureInputs.forEach(function (element) {
-          if (!offers[i].offer.features.includes(element.value)) {
+        for (var j = 0; j < checkFeatureInputs.length; j++) {
+          if (!offers[i].offer.features.includes(checkFeatureInputs[j].value)) {
             isFeatured = false;
+            break;
           }
-        });
+        }
 
         if (isFeatured) {
           pins.push(offers[i]);
@@ -58,8 +61,7 @@
     return pins;
   };
 
-
-  filters.addEventListener('change', function () {
+  mapFilters.addEventListener('change', function () {
     window.pin.remove();
     window.card.close();
 
@@ -71,8 +73,24 @@
     }, DEBOUNCE_INTERVAL);
   });
 
+  var deactivateFilters = function () {
+    filterUnits.forEach(function (item) {
+      item.setAttribute('disabled', 'disabled');
+    });
+  };
+
+  var activateFilters = function () {
+    filterUnits.forEach(function (item) {
+      item.removeAttribute('disabled', 'disabled');
+    });
+  };
+
+  deactivateFilters();
 
   window.filter = {
+    activate: activateFilters,
+    deactivate: deactivateFilters,
+    map: mapFilters,
     data: filterOffers,
   };
 

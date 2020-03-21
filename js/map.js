@@ -13,11 +13,12 @@
     }
     window.card.map.classList.remove('map--faded');
     window.form.ad.classList.remove('ad-form--disabled');
+    window.filter.map.classList.remove('ad-form--disabled');
     window.form.activateFields();
     window.utils.loadData();
-    window.form.ad.addEventListener('change', window.form.checkFieldsValidty);
     window.form.ad.addEventListener('submit', window.form.submit);
     formResetButton.addEventListener('click', deactivateMap);
+    window.filter.activate();
     isActive = true;
   };
 
@@ -26,22 +27,23 @@
     window.form.ad.reset();
     window.card.map.classList.add('map--faded');
     window.form.ad.classList.add('ad-form--disabled');
+    window.filter.map.classList.add('ad-form--disabled');
     window.form.deactivateFields();
     window.pin.remove();
     window.form.ad.removeEventListener('submit', window.form.submit);
-    window.form.ad.removeEventListener('change', window.form.checkFieldsValidty);
-    formResetButton.removeEventListener('click', deactivateMap);
+    formResetButton.removeEventListener('click', window.form.resetHandler);
     window.pin.setMainPinStartCoords();
+    window.filter.deactivate();
   };
 
-  var onLeftButtonClick = (function (evt) {
+  var leftButtonClickHandler = (function (evt) {
     if (evt.button === 0) {
       activateMap();
     }
     setPinCoordinates();
   });
 
-  mainPin.addEventListener('mousedown', onLeftButtonClick);
+  mainPin.addEventListener('mousedown', leftButtonClickHandler);
   mainPin.addEventListener('keydown', function (evt) {
     if (evt.key === window.utils.ENTER) {
       activateMap();

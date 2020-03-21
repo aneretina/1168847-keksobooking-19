@@ -16,6 +16,7 @@
 
   var map = document.querySelector('.map');
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+  var mapFilters = document.querySelector('.map__filters-container');
 
   var setCardValue = function (node, className, value) {
     var cardItem = node.querySelector(className);
@@ -69,32 +70,45 @@
     return clonedCard;
   };
 
-  var closeCard = function () {
+  var cardCloseHandler = function () {
     var newCard = map.querySelector('.map__card');
     if (newCard) {
       map.removeChild(newCard);
     }
+    document.removeEventListener('keydown', cardEscPressHandler);
   };
 
   var showCard = function (pin) {
     var card = createCard(pin);
     var closeButton = card.querySelector('.popup__close');
-    closeButton.addEventListener('click', closeCard);
-    document.addEventListener('keydown', onPupopEscPress);
+    closeButton.addEventListener('click', cardCloseHandler);
+    document.addEventListener('keydown', cardEscPressHandler);
     return card;
   };
 
-  var onPupopEscPress = function (evt) {
-    evt.preventDefault();
+  var activateCard = function (pin) {
+    return function () {
+      var oldCard = map.querySelector('.map__card');
+      if (oldCard) {
+        map.removeChild(oldCard);
+      }
+
+      var card = showCard(pin);
+      map.insertBefore(card, mapFilters);
+    };
+  };
+
+  var cardEscPressHandler = function (evt) {
     if (evt.key === window.utils.ESC) {
-      closeCard();
+      cardCloseHandler();
     }
   };
 
-
   window.card = {
+    activate: activateCard,
     show: showCard,
     map: map,
-    close: closeCard
+    close: cardCloseHandler,
+    cardEscPressHandler: cardEscPressHandler,
   };
 })();

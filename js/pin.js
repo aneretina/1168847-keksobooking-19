@@ -11,12 +11,12 @@
     Y: 445
   };
 
-  var PIN_NUMBERS = 5;
+  var PIN_COUNT = 5;
   var fragment = document.createDocumentFragment();
 
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapPins = document.querySelector('.map__pins');
-  var mapFilters = document.querySelector('.map__filters-container');
+
 
   var createPin = function (pin) {
     var clonedPin = pinTemplate.cloneNode(true);
@@ -25,18 +25,13 @@
     clonedPin.style.top = pin.location.y - PinSize.HEIGHT + 'px';
     pinIcon.src = pin.author.avatar;
     pinIcon.alt = pin.offer.title;
-    return clonedPin;
-  };
 
-  var onPinClick = function (pin) {
-    return function () {
-      var oldCard = window.card.map.querySelector('.map__card');
-      if (oldCard) {
-        window.card.map.removeChild(oldCard);
-      }
-      var card = window.card.show(pin);
-      window.card.map.insertBefore(card, mapFilters);
-    };
+    clonedPin.addEventListener('click', function () {
+      renderPins(clonedPin);
+      removeActivePin();
+      clonedPin.classList.add('map__pin--active');
+    });
+    return clonedPin;
   };
 
   var setMainPinStartCoords = function () {
@@ -47,21 +42,21 @@
 
   var renderPins = function (offers) {
     for (var i = 0; i < offers.length; i++) {
-
-      if (i === PIN_NUMBERS) {
+      if (i === PIN_COUNT) {
         break;
       }
       var pin = createPin(offers[i]);
-      pin.addEventListener('click', onPinClick(offers[i]));
+      pin.addEventListener('click', window.card.activate(offers[i]));
       pin.addEventListener('keydown', function (evt) {
         if (evt.key === window.utils.ENTER) {
-          onPinClick(offers[i]);
+          window.card.activate(offers[i]);
         }
       });
       fragment.appendChild(pin);
     }
     mapPins.appendChild(fragment);
   };
+
 
   var removePins = function () {
     var pins = mapPins.querySelectorAll('.map__pin');
@@ -72,12 +67,19 @@
     }
   };
 
+  var removeActivePin = function () {
+    var mapPinActive = document.querySelector('.map__pin--active');
+    if (mapPinActive) {
+      mapPinActive.classList.remove('map__pin--active');
+    }
+  };
+
   window.pin = {
-    onClick: onPinClick,
     remove: removePins,
     setMainPinStartCoords: setMainPinStartCoords,
     render: renderPins,
-
+    count: PIN_COUNT,
+    removeActive: removeActivePin,
 
     Size: {
       WIDTH: PinSize.WIDTH,
