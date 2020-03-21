@@ -70,19 +70,19 @@
     return clonedCard;
   };
 
-  var closeCard = function () {
+  var cardCloseHandler = function () {
     var newCard = map.querySelector('.map__card');
     if (newCard) {
       map.removeChild(newCard);
     }
-    document.removeEventListener('keydown', onPupopEscPress);
+    document.removeEventListener('keydown', cardEscPressHandler);
   };
 
   var showCard = function (pin) {
     var card = createCard(pin);
     var closeButton = card.querySelector('.popup__close');
-    closeButton.addEventListener('click', closeCard);
-    document.addEventListener('keydown', onPupopEscPress);
+    closeButton.addEventListener('click', cardCloseHandler);
+    document.addEventListener('keydown', cardEscPressHandler);
     return card;
   };
 
@@ -92,15 +92,15 @@
       if (oldCard) {
         map.removeChild(oldCard);
       }
+
       var card = showCard(pin);
       map.insertBefore(card, mapFilters);
     };
   };
 
-  var onPupopEscPress = function (evt) {
-    evt.preventDefault();
+  var cardEscPressHandler = function (evt) {
     if (evt.key === window.utils.ESC) {
-      closeCard();
+      cardCloseHandler();
     }
   };
 
@@ -108,6 +108,7 @@
     activate: activateCard,
     show: showCard,
     map: map,
-    close: closeCard
+    close: cardCloseHandler,
+    cardEscPressHandler: cardEscPressHandler,
   };
 })();

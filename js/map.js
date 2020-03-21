@@ -31,19 +31,19 @@
     window.form.deactivateFields();
     window.pin.remove();
     window.form.ad.removeEventListener('submit', window.form.submit);
-    formResetButton.removeEventListener('click', deactivateMap);
+    formResetButton.removeEventListener('click', window.form.resetHandler);
     window.pin.setMainPinStartCoords();
     window.filter.deactivate();
   };
 
-  var onLeftButtonClick = (function (evt) {
+  var leftButtonClickHandler = (function (evt) {
     if (evt.button === 0) {
       activateMap();
     }
     setPinCoordinates();
   });
 
-  mainPin.addEventListener('mousedown', onLeftButtonClick);
+  mainPin.addEventListener('mousedown', leftButtonClickHandler);
   mainPin.addEventListener('keydown', function (evt) {
     if (evt.key === window.utils.ENTER) {
       activateMap();

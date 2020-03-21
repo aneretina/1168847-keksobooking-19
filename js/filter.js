@@ -46,11 +46,12 @@
       (filterOptRoom.value === 'any' || offers[i].offer.rooms === Number(filterOptRoom.value)) &&
       (filterOptGuest.value === 'any' || offers[i].offer.guests === Number(filterOptGuest.value))) {
 
-        checkFeatureInputs.forEach(function (element) {
-          if (!offers[i].offer.features.includes(element.value)) {
+        for (var j = 0; j < checkFeatureInputs.length; j++) {
+          if (!offers[i].offer.features.includes(checkFeatureInputs[j].value)) {
             isFeatured = false;
+            break;
           }
-        });
+        }
 
         if (isFeatured) {
           pins.push(offers[i]);
@@ -77,7 +78,6 @@
       item.setAttribute('disabled', 'disabled');
     });
   };
-
 
   var activateFilters = function () {
     filterUnits.forEach(function (item) {
