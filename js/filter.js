@@ -61,28 +61,28 @@
     return pins;
   };
 
-  mapFilters.addEventListener('change', function () {
-    window.pin.remove();
-    window.card.close();
+  var activateFilters = function () {
+    filterUnits.forEach(function (item) {
+      item.removeAttribute('disabled', 'disabled');
+    });
+    mapFilters.addEventListener('change', function () {
+      window.pin.remove();
+      window.card.close();
 
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-    lastTimeout = window.setTimeout(function () {
-      window.pin.render(filterOffers(window.data));
-    }, DEBOUNCE_INTERVAL);
-  });
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        window.pin.render(filterOffers(window.data));
+      }, DEBOUNCE_INTERVAL);
+    });
+  };
 
   var deactivateFilters = function () {
     filterUnits.forEach(function (item) {
       item.setAttribute('disabled', 'disabled');
     });
-  };
-
-  var activateFilters = function () {
-    filterUnits.forEach(function (item) {
-      item.removeAttribute('disabled', 'disabled');
-    });
+    mapFilters.reset();
   };
 
   deactivateFilters();

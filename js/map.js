@@ -6,7 +6,6 @@
   var mainPin = document.querySelector('.map__pin--main');
   var formResetButton = window.form.ad.querySelector('.ad-form__reset');
 
-
   var activateMap = function () {
     if (isActive) {
       return;
@@ -17,8 +16,7 @@
     window.form.activateFields();
     window.utils.loadData();
     window.form.ad.addEventListener('submit', window.form.submit);
-    formResetButton.addEventListener('click', deactivateMap);
-    window.filter.activate();
+    formResetButton.addEventListener('click', window.form.resetHandler);
     isActive = true;
   };
 
@@ -30,10 +28,13 @@
     window.filter.map.classList.add('ad-form--disabled');
     window.form.deactivateFields();
     window.pin.remove();
+    window.card.close();
     window.form.ad.removeEventListener('submit', window.form.submit);
     formResetButton.removeEventListener('click', window.form.resetHandler);
     window.pin.setMainPinStartCoords();
     window.filter.deactivate();
+    window.image.setDefaultImages();
+    window.form.setPricedDefaultInput();
   };
 
   var leftButtonClickHandler = (function (evt) {

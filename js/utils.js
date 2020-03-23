@@ -18,9 +18,15 @@
     document.body.insertAdjacentElement('afterbegin', node);
   };
 
+  var loadFilterForm = function () {
+    window.filter.activate();
+  };
+
   var successLoadHandler = function (offers) {
     window.pin.render(offers);
     window.data = offers;
+
+    loadFilterForm();
   };
 
   var loadData = function () {

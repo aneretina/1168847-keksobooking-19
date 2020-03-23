@@ -13,33 +13,33 @@
     successMessage = successMessageTemplate.cloneNode(true);
     main.appendChild(successMessage);
     document.addEventListener('keydown', escPressHandler);
-    document.addEventListener('click', messageCloseHandler);
+    document.addEventListener('click', elementRemoveHandler);
     window.map.deactivate();
   };
 
   var showMessageOfError = function () {
     errorMessage = errorMessageTemplate.cloneNode(true);
     main.appendChild(errorMessage);
-    errorButton.addEventListener('click', messageCloseHandler);
+    errorButton.addEventListener('click', elementRemoveHandler);
     document.addEventListener('keydown', escPressHandler);
-    document.addEventListener('click', messageCloseHandler);
+    document.addEventListener('click', elementRemoveHandler);
   };
 
   var escPressHandler = function (evt) {
     if (evt.key === window.utils.ESC) {
-      messageCloseHandler();
+      elementRemoveHandler();
     }
   };
 
-  var messageCloseHandler = function () {
+  var elementRemoveHandler = function () {
     if (successMessage) {
       successMessage.remove();
     } else {
       errorMessage.remove();
     }
-    errorButton.removeEventListener('click', messageCloseHandler);
+    errorButton.removeEventListener('click', elementRemoveHandler);
     document.removeEventListener('keydown', escPressHandler);
-    document.removeEventListener('click', messageCloseHandler);
+    document.removeEventListener('click', elementRemoveHandler);
   };
 
   window.message = {

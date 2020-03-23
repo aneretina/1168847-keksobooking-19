@@ -22,6 +22,7 @@
   };
 
   var MAX_PRICE = 1000000;
+  var PRICE_DEFAULT = 1000;
 
   var adForm = document.querySelector('.ad-form');
   var fields = adForm.querySelectorAll('fieldset');
@@ -108,6 +109,10 @@
     priceInput.placeholder = AccomodationPrices[typeInput.value.toUpperCase()];
   };
 
+  var setPricedDefaultInput = function () {
+    priceInput.placeholder = PRICE_DEFAULT;
+  };
+
   var typeInputHandler = function () {
     checkTypePriceValidity();
     checkPriceValidity();
@@ -169,6 +174,7 @@
     activateFields: activateFields,
     checkFieldsValidty: checkFieldsValidty,
     deactivateFields: deactivateFields,
-    resetHandler: formResetHandler
+    resetHandler: formResetHandler,
+    setPricedDefaultInput: setPricedDefaultInput,
   };
 })();

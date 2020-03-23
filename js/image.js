@@ -7,6 +7,13 @@
   var avatarPreview = document.querySelector('.ad-form-header__preview img');
   var photoChooser = document.querySelector('.ad-form__upload input[type=file]');
   var photoPreview = document.querySelector('.ad-form__photo img');
+  var avatarDefault = avatarPreview.src;
+  var photoDefault = photoPreview.src;
+
+  function setDefaultImages() {
+    avatarPreview.src = avatarDefault;
+    photoPreview.src = photoDefault;
+  }
 
   var uploadImage = function (input, img) {
     var file = input.files[0];
@@ -37,5 +44,8 @@
     photoPreview.appendChild(photoImg);
   });
 
+  window.image = {
+    setDefaultImages: setDefaultImages,
+  };
 
 })();
