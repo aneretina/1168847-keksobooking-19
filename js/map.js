@@ -4,7 +4,6 @@
   var isActive = false;
   var addressInput = document.querySelector('.ad-form').querySelector('#address');
   var mainPin = document.querySelector('.map__pin--main');
-  var formResetButton = window.form.ad.querySelector('.ad-form__reset');
 
   var activateMap = function () {
     if (isActive) {
@@ -15,8 +14,6 @@
     window.filter.map.classList.remove('ad-form--disabled');
     window.form.activateFields();
     window.utils.loadData();
-    window.form.ad.addEventListener('submit', window.form.submit);
-    formResetButton.addEventListener('click', window.form.resetHandler);
     isActive = true;
   };
 
@@ -29,8 +26,6 @@
     window.form.deactivateFields();
     window.pin.remove();
     window.card.close();
-    window.form.ad.removeEventListener('submit', window.form.submit);
-    formResetButton.removeEventListener('click', window.form.resetHandler);
     window.pin.setMainPinStartCoords();
     window.filter.deactivate();
     window.image.setDefaultImages();

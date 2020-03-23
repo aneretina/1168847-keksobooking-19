@@ -26,7 +26,6 @@
 
   var adForm = document.querySelector('.ad-form');
   var fields = adForm.querySelectorAll('fieldset');
-  var adFormInputs = adForm.querySelectorAll('.ad-form input');
 
   var roomsNumber = adForm.querySelector('#room_number');
   var guestsNumber = adForm.querySelector('#capacity');
@@ -36,6 +35,16 @@
   var typeInput = adForm.querySelector('#type');
   var timeInInput = adForm.querySelector('#timein');
   var timeOutInput = adForm.querySelector('#timeout');
+  var submitButton = adForm.querySelector('.ad-form__submit');
+  var formResetButton = adForm.querySelector('.ad-form__reset');
+
+  var setBorderFromInvalidInput = function (input) {
+    input.style.border = 'solid 3px red';
+  };
+
+  var resetBorderFromValidInput = function (input) {
+    input.style.border = 'solid 0 red';
+  };
 
   var deactivateFields = function () {
     for (var i = 0; i < fields.length; i++) {
@@ -46,13 +55,6 @@
   var activateFields = function () {
     for (var i = 0; i < fields.length; i++) {
       fields[i].removeAttribute('disabled');
-    }
-  };
-
-  var formSubmit = function (evt) {
-    if (adForm.checkValidity()) {
-      window.backend.upload(new FormData(adForm), window.message.showSuccess, window.message.showError);
-      evt.preventDefault();
     }
   };
 
@@ -86,6 +88,7 @@
       titleInput.setCustomValidity('Максимальное количество: 100 символов');
     } else {
       titleInput.setCustomValidity('');
+      resetBorderFromValidInput(titleInput);
     }
   };
 
@@ -101,6 +104,7 @@
       priceInput.setCustomValidity('Максимальная цена за ночь: 1 000 000 руб.');
     } else {
       priceInput.setCustomValidity('');
+      resetBorderFromValidInput(priceInput);
     }
   };
 
@@ -134,14 +138,25 @@
     checkTimeOutValidity();
   };
 
-  var checkInputs = function () {
-    adFormInputs.forEach(function (input) {
-      if (input.checkValidity() === false) {
-        input.style.border = '3px solid red';
-      } else {
-        input.style.border = '';
-      }
-    });
+  var formSubmitHandler = function (evt) {
+    if (!titleInput.checkValidity()) {
+      setBorderFromInvalidInput(titleInput);
+    }
+
+    if (!priceInput.checkValidity()) {
+      setBorderFromInvalidInput(priceInput);
+    }
+
+    if (adForm.checkValidity()) {
+      window.backend.upload(new FormData(adForm), window.message.showSuccess, window.message.showError);
+      evt.preventDefault();
+    }
+  };
+
+  var formResetHandler = function () {
+    window.map.deactivate();
+    resetBorderFromValidInput(titleInput);
+    resetBorderFromValidInput(priceInput);
   };
 
   timeInInput.addEventListener('input', timeInInputHandler);
@@ -152,29 +167,15 @@
   guestsNumber.addEventListener('input', roomsInputHandler);
   roomsNumber.addEventListener('input', roomsInputHandler);
 
-  var checkFieldsValidty = function () {
-    checkRoomValidity();
-    checkPriceValidity();
-    checkTitleValidity();
-    checkTimeInValidity();
-    checkTimeOutValidity();
-    checkTypePriceValidity();
-    checkInputs();
-  };
-
-  var formResetHandler = function () {
-    window.map.deactivate();
-  };
-
   deactivateFields();
+
+  submitButton.addEventListener('click', formSubmitHandler);
+  formResetButton.addEventListener('click', formResetHandler);
 
   window.form = {
     ad: adForm,
-    submit: formSubmit,
     activateFields: activateFields,
-    checkFieldsValidty: checkFieldsValidty,
     deactivateFields: deactivateFields,
-    resetHandler: formResetHandler,
     setPricedDefaultInput: setPricedDefaultInput,
   };
 })();
