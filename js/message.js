@@ -35,7 +35,7 @@
     errorButton.removeEventListener('click', messageRemoveHandler);
     document.removeEventListener('keydown', escPressHandler);
     document.removeEventListener('click', messageRemoveHandler);
-  }
+  };
 
   var escPressHandler = function (evt) {
     if (evt.key === window.utils.ESC) {
@@ -44,7 +44,7 @@
   };
 
   var messageRemoveHandler = function () {
-    removeMessage()
+    removeMessage();
   };
 
   window.message = {
